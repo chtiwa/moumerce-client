@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { MdVisibilityOff, MdVisibility } from 'react-icons/md'
 import './AuthPage.scss'
 import { AiOutlineInfoCircle } from 'react-icons/ai'
+import { Link } from 'react-router-dom'
 
 interface Form {
   firstName: string
@@ -77,9 +78,9 @@ const AuthPage = () => {
   }
 
   const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+  }
 
   return (
     <div className='auth'>
@@ -134,9 +135,9 @@ const AuthPage = () => {
             </div>
 
           </div>
-          <p className='forgot-password'>
+          <Link to='/forgot-password' className='forgot-password'>
             Forgot your password?
-          </p>
+          </Link>
           <button type='submit' >{isLogin ? 'Login' : 'Register'} </button>
           <p onClick={() => setIsLogin(isLogin => !isLogin)} className='toggle-login-register' >
             <AiOutlineInfoCircle />

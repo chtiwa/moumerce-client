@@ -39,12 +39,12 @@ const Pagination = ({ currentPage = 2, totalCount = 100, siblingCount = 1, pageS
       {paginationRange.map((pageNumber: any) => {
         // If the pageItem is a DOT, render the DOTS unicode character
         if (pageNumber === DOTS) {
-          return <button className='dots'>&#8230;</button>;
+          return <button className='dots' key={pageNumber}>&#8230;</button>;
         }
 
         // Render our Page Pills
         return (
-          <button onClick={() => onPageChange(pageNumber)} disabled={currentPage === pageNumber} >
+          <button onClick={() => onPageChange(pageNumber)} disabled={currentPage === pageNumber} key={pageNumber} >
             {pageNumber}
           </button>
         )

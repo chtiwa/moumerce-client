@@ -23,7 +23,7 @@ const Cart = () => {
       </div>
 
       <ul className="list">
-        {data.map((item,index) => (
+        {data.map((item, index) => (
           <li className="item" key={index}>
             <div className="image">
               <img src={item.image} alt="" />
@@ -41,7 +41,6 @@ const Cart = () => {
                   </div>
                   <div className="btns">
                     <span><AiOutlineUp /></span>
-                    <hr />
                     <span><AiOutlineDown /></span>
                   </div>
                 </div>

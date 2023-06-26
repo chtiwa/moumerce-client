@@ -62,7 +62,7 @@
           position: absolute;
           top: 80%;
           left: 50%;
-          transform: translate(-50%,-50%);
+          transform: translate(-50%, -50%);
           background-color: var(--black);
           color: var(--white);
           width: 130px;
@@ -72,7 +72,7 @@
           font-size: 18px;
           box-shadow: 0 0 0 2px var(--white);
           // opacity: 0.85;
-          
+
           &:hover {
             opacity: 0.65;
           }
@@ -112,7 +112,7 @@
             height: 300px;
           }
         }
-      } 
+      }
     }
   }
 }
@@ -128,13 +128,18 @@
             font-size: 14px;
           }
         }
-      } 
+      }
     }
   }
 }
 
 @media screen and (max-width:350px) {
   .categories {
+
+    .heading {
+      font-size: 14px;
+    }
+
     .wrapper {
       .col {
         .row {
@@ -144,7 +149,7 @@
             font-size: 14px;
           }
         }
-      } 
+      }
     }
   }
 }

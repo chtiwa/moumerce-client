@@ -3,13 +3,13 @@ import { Suspense } from 'react'
 import HomePage from './pages/home/HomePage'
 import Layout from './Layout'
 import AuthPage from './pages/authentication/AuthPage'
-import ResetPassword from './pages/resetPassword/ResetPassword'
 import VerifyAccount from './pages/verifyAccount/VerifyAccount'
 import Fallback from './Fallback'
 import CartPage from './pages/cart/CartPage'
 import Favorites from './pages/favorites/Favorites'
 import ProductsPage from './pages/products/ProductsPage'
 import ProductPage from './pages/product/ProductPage'
+import ForgotPassword from './pages/forgotPassword/ForgotPassword'
 
 const App = () => {
   return (
@@ -35,8 +35,8 @@ const App = () => {
             <Suspense fallback={<Fallback />} ><Favorites /></Suspense>
           } />
           <Route path='/fallback' element={<Fallback />} />
-          <Route path="/reset-password" element={
-            <Suspense fallback={<Fallback />} ><ResetPassword /></Suspense>
+          <Route path="/forgot-password" element={
+            <Suspense fallback={<Fallback />} ><ForgotPassword /></Suspense>
           } />
           <Route path="/verify-account" element={
             <Suspense fallback={<Fallback />} ><VerifyAccount /></Suspense>

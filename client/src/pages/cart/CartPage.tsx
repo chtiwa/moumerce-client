@@ -1,81 +1,94 @@
-import './CartPage.css'
-import { AiOutlineShoppingCart, AiOutlineMinus, AiOutlinePlus, AiOutlineDelete } from 'react-icons/ai'
+import { useState } from 'react'
+import { AiOutlineDelete, AiOutlineDown, AiOutlineLeft, AiOutlineTag, AiOutlineUp } from 'react-icons/ai'
+import './CartPage.scss'
+import { Link } from 'react-router-dom'
 
 const Cart = () => {
   const products = [
-    { img: "/images/home/cart-product.webp", size: "m", title: "Blue shirt", price: 20, quantity: 2 },
-    { img: "/images/home/cart-product.webp", size: "m", title: "Blue shirt", price: 20, quantity: 2 },
-    { img: "/images/home/cart-product.webp", size: "m", title: "Blue shirt", price: 20, quantity: 2 },
+    { img: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8c2hvZXN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=1000&q=60", size: "m", title: "Blue shirt", price: 20, quantity: 2 },
+    { img: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8c2hvZXN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=1000&q=60", size: "m", title: "Blue shirt", price: 20, quantity: 2 },
+    { img: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8c2hvZXN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=1000&q=60", size: "m", title: "Blue shirt", price: 20, quantity: 2 },
   ]
-  return (
-    <div className='cart'>
-      <div className="cart-container">
-        <div className="cart-products">
-          <div className="cart-products-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>Price</th>
-                  <th>Quantity</th>
-                  <th>Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                {products.map((product, index) => (
-                  <tr key={index}>
-                    <td className='table-td'>
-                      <AiOutlineDelete className="td-delete-icon" />
-                      <img src={product.img} alt="" />
-                      <div className="table-td-info">
-                        <h4>{product.title}</h4>
-                        <h4>{product.size}</h4>
-                      </div>
-                    </td>
-                    <td className='table-td-price' >{product.price}$ </td>
-                    <td className='table-td-quantity'>
-                      <button className="table-td-quantity-button-decrease"><AiOutlineMinus /></button>
-                      <p className="table-td-quantity-quantity">{product.quantity} </p>
-                      <button className="table-td-quantity-button-increase"><AiOutlinePlus /></button>
-                    </td>
-                    <td className='table-td-amount'>{product.quantity * product.price}$</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="cart-prodcuts-buttons">
-            <button className="cart-prodcuts-buttons-checkout">Proceed to checkout</button>
-            <button className="cart-prodcuts-buttons-continue">Continue shopping</button>
-          </div>
-        </div>
-        <div className="cart-info">
-          <div className="cart-heading">
-            There are 6 items in your cart
-          </div>
-          <div className="cart-info-total-container">
-            <div className="cart-info-section">
-              <h4 className="cart-info-total">
-                Total:
-              </h4>
-              <div className="cart-info-total-amount">
-                200$
-              </div>
-            </div>
-            <div className="cart-info-section">
-              <h4 className="cart-info-total">
-                Shipping fee:
-              </h4>
-              <div className="cart-info-total-amount">
-                The fee will be calculated based on delivery location
-              </div>
 
-            </div>
-          </div>
-        </div>
+  const [voucher, setVoucher] = useState('')
+  const handleChange = (e: any) => {
+    setVoucher(e.target.value)
+  }
+
+  return (
+    <div className="cart-page">
+      <div className="top">
+        Shopping cart
       </div>
-      <div className="cart-suggested-products">
-        Products you may also like
+
+      <div className="bottom">
+        {products.length === 0 ? (
+          <span className='empty-cart-span'>There are no items in your cart</span>
+        ) : (
+          <>
+            <ul className="left">
+              {products.map((product, index) => (
+                <li className="item" key={index}>
+                  <div className="img-title">
+                    <img src={product.img} alt="" />
+                    <span>{product.title} </span>
+                  </div>
+                  <div className="item-wrapper">
+                    <div className="price">${product.price} </div>
+                    <div className="amount-btns">
+                      <span>{product.quantity} </span>
+                      <div className="up-down-wrapper">
+                        <button><AiOutlineUp /> </button>
+                        <button><AiOutlineDown /> </button>
+                      </div>
+                    </div>
+                    <div className="total">
+                      ${product.price * product.quantity}
+                    </div>
+                    <div className="delete">
+                      <AiOutlineDelete />
+                    </div>
+                  </div>
+                </li>
+              ))}
+              <div className="continue-wrapper">
+                <Link to="/products">
+                  <button>
+                    <AiOutlineLeft />
+                    <span>Continue shopping</span>
+                  </button>
+                </Link>
+              </div>
+            </ul>
+            <div className="right">
+              <ul className="heading">
+                <li className="item">
+                  <span>3 items </span>
+                  <span>$125</span>
+                </li>
+                <li className="item">
+                  <span>Shipping</span>
+                  <span>$8</span>
+                </li>
+              </ul>
+              <div className="middle">
+                <div className="header">
+                  <span>Total</span>
+                  <span>$133</span>
+                </div>
+              </div>
+              <div className="voucher">
+                <AiOutlineTag />
+                <input type="text" name="voucher" value={voucher || ""} onChange={handleChange} placeholder='Enter your promo code here' />
+              </div>
+              <div className="checkout">
+                <Link to='/prodcuts' >
+                  <button>Proceed to checkout </button>
+                </Link>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   )

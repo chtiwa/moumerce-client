@@ -4,6 +4,13 @@ import Pagination from "./Pagination"
 import './ProductsPage.scss'
 
 const ProductsPage = () => {
+  const props = {
+    currentPage: 2,
+    totalCount: 50,
+    siblingCount: 2,
+    pageSize: 5
+  }
+
   return (
     <div className="products">
       <div className="products-title">
@@ -14,8 +21,7 @@ const ProductsPage = () => {
       </div>
       <Filters />
       <Products />
-      <Pagination />
-
+      <Pagination {...props} />
     </div>
   )
 }

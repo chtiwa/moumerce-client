@@ -54,7 +54,7 @@ const Filters = () => {
       <div className={`${isFiltersActive ? "show-filters" : "hide-filters"}`}>
         <div className="col">
           <div className="heading">
-            <span>Categories</span>
+            <span>Category</span>
             <hr />
           </div>
           <ul className="filters-list">

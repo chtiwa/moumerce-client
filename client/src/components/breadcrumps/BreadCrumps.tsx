@@ -7,14 +7,40 @@ const BreadCrumps = () => {
   if (location.pathname === "/") {
     return <></>
   }
-  const firstCharacterAsCapital = location.pathname.split('/')[1].charAt(0).toUpperCase()
+
+  console.log(location.pathname.split('/'))
+  let breadcrumps
+  if (location.pathname.split("/")[1] === "product") {
+    breadcrumps = <>
+      <Link to='/products'>
+        Products
+      </Link>
+      <span>/</span>
+      {/* i need to get the product's title from redux store  */}
+      <span>Product's title</span>
+    </>
+  } else if (location.pathname.split("/")[1] === "forgot-password") {
+    breadcrumps = <Link to='/forgot-password'>
+      Forgot password
+    </Link>
+  } else if (location.pathname.split('/')[1] === "cart") {
+    breadcrumps = <>
+      <Link to="/products">Products</Link>
+      <span>/</span>
+      <Link to="/cart">Cart</Link>
+    </>
+  }
+  else {
+    const firstCharacterAsCapital = location.pathname.split('/')[1].charAt(0).toUpperCase()
+    breadcrumps = <Link to={location.pathname.split('/')[1]}>
+      {firstCharacterAsCapital + location.pathname.split('/')[1].slice(1)}
+    </Link>
+  }
   return (
     <div className='breadcrumps'>
       <Link to="/">Home</Link>
       <span>/</span>
-      <Link to={`${location.pathname.split('/')[1]}`}>
-        {firstCharacterAsCapital + location.pathname.slice(2)}
-      </Link>
+      {breadcrumps}
     </div>
   )
 }
