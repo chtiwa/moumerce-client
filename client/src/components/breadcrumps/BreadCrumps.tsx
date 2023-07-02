@@ -8,7 +8,7 @@ const BreadCrumps = () => {
     return <></>
   }
 
-  console.log(location.pathname.split('/'))
+  // console.log(location.pathname.split('/'))
   let breadcrumps
   if (location.pathname.split("/")[1] === "product") {
     breadcrumps = <>
@@ -30,7 +30,11 @@ const BreadCrumps = () => {
       <Link to="/cart">Cart</Link>
     </>
   }
-  else {
+  else if (location.pathname.split('/')[1] === "user") {
+    breadcrumps = <>
+      <Link to="/user">Your account</Link>
+    </>
+  } else {
     const firstCharacterAsCapital = location.pathname.split('/')[1].charAt(0).toUpperCase()
     breadcrumps = <Link to={location.pathname.split('/')[1]}>
       {firstCharacterAsCapital + location.pathname.split('/')[1].slice(1)}

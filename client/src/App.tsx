@@ -10,6 +10,7 @@ import Favorites from './pages/favorites/Favorites'
 import ProductsPage from './pages/products/ProductsPage'
 import ProductPage from './pages/product/ProductPage'
 import ForgotPassword from './pages/forgotPassword/ForgotPassword'
+import User from './pages/user/User'
 
 const App = () => {
   return (
@@ -33,6 +34,9 @@ const App = () => {
           } />
           <Route path='/favorites' element={
             <Suspense fallback={<Fallback />} ><Favorites /></Suspense>
+          } />
+          <Route path='/user' element={
+            <Suspense fallback={<Fallback />} ><User /></Suspense>
           } />
           <Route path='/fallback' element={<Fallback />} />
           <Route path="/forgot-password" element={

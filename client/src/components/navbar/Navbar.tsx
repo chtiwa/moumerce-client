@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import './Navbar.scss'
 import { AiOutlineUser, AiOutlineSearch, AiOutlineShoppingCart, AiOutlineMenu } from 'react-icons/ai'
 import Cart from '../cart/Cart'
@@ -22,11 +22,31 @@ const Navbar = () => {
       </NavLink>
 
       <ul className="links">
-        <div className="item">CATEGORIES</div>
-        <div className="item">MEN</div>
-        <div className="item">WOMEN</div>
-        <div className="item">SPORT</div>
-        <div className="item">FASHION</div>
+        <li className="item">
+          <Link to="/products?categories=all">
+            CATEGORIES
+          </Link>
+        </li>
+        <li className="item">
+          <Link to="/products?gender=man">
+            MEN
+          </Link>
+        </li>
+        <li className="item">
+          <Link to="/products?gender=woman">
+            WOMEN
+          </Link>
+        </li>
+        <li className="item">
+          <Link to="/products?type=sport">
+            SPORT
+          </Link>
+        </li>
+        <li className="item">
+          <Link to="/products?type=fashion">
+            FASHION
+          </Link>
+        </li>
       </ul>
 
       <ul className="icons">
@@ -34,10 +54,12 @@ const Navbar = () => {
           <AiOutlineSearch />
           <span>Search</span>
         </li>
-        <li className="item">
-          <AiOutlineUser />
-          <span>Sign in</span>
-        </li>
+        <Link to="/authentication">
+          <li className="item">
+            <AiOutlineUser />
+            <span>Sign in</span>
+          </li>
+        </Link>
         <li className="item" onClick={() => {
           if (isSidebarOpen) return
           dispatch(openCart())
@@ -53,7 +75,6 @@ const Navbar = () => {
           <AiOutlineMenu />
         </li>
       </ul>
-
     </div>
   )
 }

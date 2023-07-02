@@ -7,6 +7,7 @@ import Newsletter from './components/newsletter/Newsletter'
 import TopSection from './components/navbar/TopSection'
 import Search from './components/navbar/Search'
 import BreadCrumps from './components/breadcrumps/BreadCrumps'
+import Popup from './components/popup/Popup'
 
 const Layout = () => {
   return (
@@ -17,6 +18,7 @@ const Layout = () => {
       <Outlet />
       <Cart />
       <Search />
+      <Popup />
       <Sidebar />
       <Newsletter />
       <Footer />

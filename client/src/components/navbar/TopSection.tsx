@@ -1,7 +1,10 @@
 import { AiOutlineDown, AiOutlineHeart } from 'react-icons/ai'
 import './TopSection.scss'
+import { Link } from 'react-router-dom'
 
 const TopSection = () => {
+  const user = true
+  const wishlist = [0, 0, 0]
   return (
     <div className='top-section'>
       <ul className="left">
@@ -20,10 +23,12 @@ const TopSection = () => {
           <AiOutlineDown />
         </li>
         <hr />
-        <li className="item">
-          <AiOutlineHeart />
-          Wishlist
-        </li>
+        <Link to='/user'>
+          <li className="item">
+            <AiOutlineHeart />
+            Wishlist ({user ? wishlist.length : 0})
+          </li>
+        </Link>
       </ul>
     </div>
   )
