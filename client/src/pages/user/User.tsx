@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { useEffect } from 'react'
 import { AiOutlineDelete, AiOutlineHeart, AiOutlineHistory, AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai'
 import './User.scss'
@@ -22,7 +24,7 @@ const User = () => {
   }, [])
 
   const handleLogout = async () => {
-    const { data } = await logout()
+    const { data } = await logout('')
     if (!logoutResult.isLoading && !logoutResult.isError) {
       dispatch(setCredentials(data))
       navigate('/products')

@@ -11,7 +11,7 @@ import ProductsPage from './pages/products/ProductsPage'
 import ProductPage from './pages/product/ProductPage'
 import ForgotPassword from './pages/forgotPassword/ForgotPassword'
 import User from './pages/user/User'
-import ProtectedRoute from './ProtectedRoute'
+// import ProtectedRoute from './ProtectedRoute'
 
 const App = () => {
   return (

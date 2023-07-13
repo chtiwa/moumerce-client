@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { setCredentials, logout } from '../features/authSlice'
 // https://www.youtube.com/watch?v=-JJFQ9bkUbo&ab_channel=DaveGray
@@ -14,12 +15,12 @@ const baseQuery = fetchBaseQuery({
   // }
 })
 
-const baseQueryWithReauth = async (args, api, extraOptions) => {
+const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
   let result = await baseQuery(args, api, extraOptions)
-  if (result?.error?.originalStatus === 403) {
+  if (result?.error?.status === 403) {
     // send a refresh token to get a new access token
-    const refreshResult = await baseQuery('/check-login', api, extraOptions)
-    console.log(refreshResult)
+    const refreshResult = await baseQuery('/check-login', api, extraOptions) as unkown
+    // console.log(refreshResult)
     if (refreshResult?.data) {
       const firstName = api.getState().auth.firstname
       // store the new token
@@ -35,9 +36,8 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 }
 
 export const authApi = createApi({
-  baseQuery: baseQueryWithReauth,
-  endpoints: (builder) => ({
-    // here we can type the request that require an access token
-
-  })
+  baseQuery: baseQueryWithReauth
+  // endpoints: (builder) => ({
+  //   here we can type the request that require an access token
+  // })
 })

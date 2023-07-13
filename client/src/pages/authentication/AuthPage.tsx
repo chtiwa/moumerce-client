@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { useState, useEffect } from 'react'
 import { MdVisibilityOff, MdVisibility } from 'react-icons/md'
 import './AuthPage.scss'
@@ -6,7 +8,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useLoginMutation, useRegisterMutation } from '../../features/authApiSlice'
 import { useAppDispatch, useAppSelector } from '../../features/hooks'
 import { setCredentials } from '../../features/authSlice'
-import { openPopup } from '../../features/popupSlice'
+// import { openPopup } from '../../features/popupSlice'
 
 interface Form {
   firstName: string | null

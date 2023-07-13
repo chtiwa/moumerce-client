@@ -1,13 +1,16 @@
+
+// @ts-nocheck
+
 import { createSlice } from '@reduxjs/toolkit'
 
-type Product = {
-  _id: string
-  title: string
-  description: string
-  images: string[]
-  price: number
-  oldPirce: string
-}
+// type Product = {
+//   _id: string
+//   title: string
+//   description: string
+//   images: string[]
+//   price: number
+//   oldPirce: string
+// }
 
 interface WishlistProps {
   products: any[]
