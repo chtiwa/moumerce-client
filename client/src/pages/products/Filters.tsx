@@ -6,7 +6,6 @@ const Filters = () => {
   const [isFiltersActive, setIsFiltersActive] = useState(false)
   const [isSelectActive, setIsSelectActive] = useState(false)
   const [sortyBy, setSortBy] = useState("")
-  // const [min, setMin] = useState(0)
   const min = 0
   const [max, setMax] = useState(1000)
 
@@ -21,20 +20,20 @@ const Filters = () => {
     setMax(e.target.value)
   }
 
-
-
-
   return (
     <div className='filters'>
       <div className="top">
         <div className="filter-toggle" onClick={() => setIsFiltersActive(isFiltersActive => !isFiltersActive)}>
-          <AiOutlineFilter />
           <span>
-            Filter
+            <AiOutlineFilter />
+          </span>
+          <span>
+            Filters
           </span>
         </div>
 
         <div className="list-wrapper">
+
           <div className="title" onClick={() => setIsSelectActive(isSelectActive => !isSelectActive)} >
             <span>{sortyBy === "" ? "Sort by : " : sortyBy}</span>
             {isSelectActive ? (
@@ -43,6 +42,7 @@ const Filters = () => {
               <AiOutlineDown />
             )}
           </div>
+
           <ul className={`list ${isSelectActive ? 'list-active' : ''}`} >
             {items.map((item, index) => (
               <li className={`item ${item === sortyBy ? "item-active" : ""} `} key={index} onClick={() => handleClickItem(item)} > {item} </li>

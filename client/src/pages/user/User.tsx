@@ -1,15 +1,37 @@
+import { useEffect } from 'react'
 import { AiOutlineDelete, AiOutlineHeart, AiOutlineHistory, AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai'
 import './User.scss'
 import { MdLogout, MdOutlineLocationOn } from 'react-icons/md'
+import { useAppDispatch, useAppSelector } from '../../features/hooks'
+import { increaseQuantity } from '../../features/cartSlice'
+import { getWishlist, removeFromWishlist, setWishlist } from '../../features/wishlistSlice'
+import { openPopup } from '../../features/popupSlice'
+import { useLogoutMutation } from '../../features/authApiSlice'
+import { Navigate, useNavigate } from 'react-router-dom'
+import { setCredentials } from '../../features/authSlice'
 
 const User = () => {
-  const data = [
-    { title: "Blue Shirt", price: 30, quantity: 2, image: "https://images.unsplash.com/photo-1608030609295-a581b8f46672?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHNoaXJ0c3xlbnwwfDF8MHx8fDA%3D&auto=format&fit=crop&w=1500&q=60" },
-    { title: "Blue Shirt", price: 30, quantity: 2, image: "https://images.unsplash.com/photo-1608030609295-a581b8f46672?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHNoaXJ0c3xlbnwwfDF8MHx8fDA%3D&auto=format&fit=crop&w=1500&q=60" },
-    { title: "Blue Shirt", price: 30, quantity: 2, image: "https://images.unsplash.com/photo-1608030609295-a581b8f46672?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHNoaXJ0c3xlbnwwfDF8MHx8fDA%3D&auto=format&fit=crop&w=1500&q=60" }
-  ]
+  const { products } = useAppSelector(state => state.wishlist)
+  const { isLoggedIn } = useAppSelector(state => state.auth)
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const [logout, logoutResult] = useLogoutMutation()
 
-  return (
+  useEffect(() => {
+    dispatch(getWishlist())
+  }, [])
+
+  const handleLogout = async () => {
+    const { data } = await logout()
+    if (!logoutResult.isLoading && !logoutResult.isError) {
+      dispatch(setCredentials(data))
+      navigate('/products')
+    }
+  }
+
+  return !isLoggedIn ? (
+    <Navigate to='/authentication' />
+  ) : (
     <div className='user'>
       <div className="top">
         Your account
@@ -22,7 +44,7 @@ const User = () => {
           </li>
           <li className="item">
             <span><MdOutlineLocationOn /></span>
-            <span>Add first address</span>
+            <span>First address</span>
           </li>
           <li className="item">
             <span><AiOutlineHistory /></span>
@@ -32,27 +54,40 @@ const User = () => {
             <span><AiOutlineHeart /></span>
             <span>Wishlist</span>
           </li>
-          <li className="item">
+          <li className="item" onClick={handleLogout} >
             <span><MdLogout /> </span>
             <span>Log out</span>
           </li>
         </ul>
         <ul className="right">
-          {data.map((item, index) => (
-            <li className="item" key={index}>
-              <img src={item.image} alt="" />
-              <div className="title">{item.title} </div>
-              <div className="price">${item.price} </div>
-              <div className="quantity">x {item.quantity} </div>
-              <button className="add-to-cart">
-                <AiOutlineShoppingCart />
-                <span>Add to cart</span>
-              </button>
-              <div className="delete-btn">
-                <AiOutlineDelete />
-              </div>
+          {products?.length > 0 ? (
+            products.map((product, index) => (
+              <li className="item" key={index}>
+                <img src={product.images[0]} alt="" />
+                <div className="title">{product.title} </div>
+                <div className="price">${product.price} </div>
+                <div className="quantity">x 1 </div>
+                <button className="add-to-cart" onClick={() => {
+                  dispatch(increaseQuantity({ product: product }))
+                  dispatch(openPopup({ success: true, message: `${product.title} was added to your cart` }))
+                }} >
+                  <AiOutlineShoppingCart />
+                  <span>Add to cart</span>
+                </button>
+                <div className="delete-btn" onClick={() => {
+                  dispatch(removeFromWishlist(product._id))
+                  dispatch(setWishlist())
+                }} >
+                  <AiOutlineDelete />
+                </div>
+              </li>
+            ))
+          ) : (
+            <li className="item">
+              Your wishlist is empty.
             </li>
-          ))}
+          )
+          }
         </ul>
       </div>
     </div>

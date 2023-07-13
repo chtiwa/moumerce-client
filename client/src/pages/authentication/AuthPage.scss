@@ -1,4 +1,4 @@
-.auth{
+.auth {
   min-height: 100vh;
 
   .wrapper {
@@ -11,7 +11,7 @@
 
     h3 {
       padding-bottom: 0.5rem;
-      box-shadow:0 2px 0 var(--rgba-2);
+      box-shadow: 0 2px 0 var(--rgba-2);
     }
 
     form {
@@ -53,14 +53,14 @@
           }
         }
 
-        .error {
+        .error-span {
           color: var(--red);
           font-size: 14px;
         }
       }
 
       .form-control-password {
-        .inner{
+        .inner {
           position: relative;
 
           .form-control-password-icon {
@@ -82,17 +82,17 @@
       align-items: center;
       justify-content: center;
       width: 300px;
-      margin: 0 auto; 
+      margin: 0 auto;
       padding: 0.75rem 1.25rem;
       background-color: var(--black);
       color: var(--white);
       cursor: pointer;
       font-weight: 500;
-      border-radius: 0.3rem;
 
       &:hover {
-        opacity: 0.9;
-        box-shadow: 0 0 3px var(--rgba-2);
+        background-color: var(--white);
+        color: var(--black);
+        box-shadow: 0 0 0 1px var(--black);
       }
     }
 
@@ -102,6 +102,7 @@
       margin: 0 auto;
       cursor: pointer;
     }
+
     .toggle-login-register {
       display: flex;
       align-items: center;
@@ -128,8 +129,10 @@
       padding: 0 1.5rem;
       padding-bottom: 2rem;
       gap: 1rem;
+
       form {
         padding: 1rem;
+
         .form-control {
           flex-direction: column;
         }
@@ -146,9 +149,31 @@
   .auth {
     .wrapper {
       padding-bottom: 2rem;
+
       form {
         .toggle-login-register {
+          text-align: center;
           flex-direction: column;
+        }
+
+        .form-control {
+          .inner {
+            input {
+              padding: 0.2rem 0.5rem;
+              font-size: 14px;
+            }
+
+            .form-control-password-icon {
+              position: absolute;
+              right: 0.4rem;
+              top: 0.25rem;
+
+              svg {
+                cursor: pointer;
+                font-size: 18px;
+              }
+            }
+          }
         }
       }
     }

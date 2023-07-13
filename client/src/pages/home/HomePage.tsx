@@ -29,7 +29,7 @@ const HomePage = () => {
       <Featured />
       <Link to="/products" className="link-button">
         <button>
-          <span>View all</span>
+          <span onClick={() => window.scrollTo({ top: 0 })} >View all</span>
           <AiOutlineRight />
         </button>
       </Link>

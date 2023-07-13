@@ -1,56 +1,89 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import './ProductPage.scss'
 import { AiOutlineDown, AiOutlineHeart, AiOutlineShoppingCart, AiOutlineUp } from 'react-icons/ai'
-import Products from '../../components/products/Products'
+// import Products from '../../components/products/Products'
+import Loader from '../../components/loader/Loader'
+import { useGetProductQuery } from '../../services/products'
+import { useAppDispatch, useAppSelector } from '../../features/hooks'
+import { setProductTitle } from '../../features/productsSlice'
+import { openPopup } from '../../features/popupSlice'
+import { calculateTotal, increaseQuantity, setCart } from '../../features/cartSlice'
 
 const ProductPage = () => {
-  const data = {
-    images: [
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fG1vZGVsfGVufDB8fDB8fHww&auto=format&fit=crop&w=1000&q=60",
-      "https://images.unsplash.com/photo-1564485377539-4af72d1f6a2f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fG1vZGVsfGVufDB8fDB8fHww&auto=format&fit=crop&w=1000&q=60",
-      "https://images.unsplash.com/photo-1562572159-4efc207f5aff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fG1vZGVsfGVufDB8fDB8fHww&auto=format&fit=crop&w=1000&q=60"
-    ],
-    title: "Cyan Blue Sweatshirt",
-    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus explicabo voluptas nulla voluptates qui praesentium iusto.",
-    price: 45,
-    oldPrice: 55
+  const dispatch = useAppDispatch()
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const { products } = useAppSelector(state => state.cart)
+  const [quantity, setQuantity] = useState(1)
+  const { id } = useParams()
+  const { data, isLoading, isError } = useGetProductQuery(id)
+
+  useEffect(() => {
+    window.scrollTo({ top: 0 })
+    if (!isLoading && !isError) {
+      dispatch(setProductTitle(data.product.title))
+
+      // if the product exists in the cart
+      const product = products.find(product => product._id === id)
+      if (product) {
+        setQuantity(product?.quantity)
+      }
+    }
+  }, [isLoading, data])
+
+  if (isLoading) {
+    return <div className="loader-container"><Loader /> </div>
   }
 
-  const [currentIndex, setCurrentIndex] = useState(0)
+  const handleSetCartCalcTotal = () => {
+    // update the cart 
+    dispatch(setCart())
+    dispatch(calculateTotal())
+  }
 
-  return (
+  const handleAddToCart = () => {
+    dispatch(openPopup({ success: true, message: `${data.product.title} was added to your cart` }))
+    dispatch(increaseQuantity({ product: data.product, quantity: quantity }))
+    handleSetCartCalcTotal()
+  }
+
+
+  const handleAddToWishlist = () => {
+    dispatch(openPopup({ success: true, message: `${data.product.title} was added to your wishlist` }))
+  }
+
+  return !isLoading && (
     <div className="product-page">
-
       <div className="wrapper">
         <div className="img-wrapper">
           <div className="main-image">
-            <img src={data.images[currentIndex]} alt="" />
+            <img src={data.product.images[currentIndex]} alt="" />
           </div>
           <div className="secondary-images">
-            {data.images.map((img, index) => (
-              <img src={img} alt="" key={index} className={`${currentIndex === index ? "selected-image" : ""}`} onClick={() => setCurrentIndex(index)} />
+            {data.product.images.map((image: any, index: any) => (
+              <img src={`${image}`} alt="" key={index} className={`${currentIndex === index ? "selected-image" : ""}`} onClick={() => setCurrentIndex(index)} />
             ))}
           </div>
         </div>
 
         <div className="details">
-          <span className="title">{data.title} </span>
-          <span className="description">{data.description} </span>
-          <span className='price'>${data.price} </span>
+          <span className="title">{data.product.title} </span>
+          <span className="description">{data.product.description} </span>
+          <span className='price'>${data.product.price} </span>
           <div className="buttons-wrapper">
             <div className="amount-btns">
-              <span>2</span>
+              <span>{quantity}</span>
               <div className="up-down-wrapper">
-                <button><AiOutlineUp /> </button>
-                <button><AiOutlineDown /> </button>
+                <button onClick={() => setQuantity(quantity => quantity + 1)} ><AiOutlineUp /> </button>
+                <button onClick={() => quantity > 1 ? setQuantity(quantity => quantity - 1) : setQuantity(1)} ><AiOutlineDown /> </button>
               </div>
             </div>
             <div className="inner">
-              <button className="cart-button">
+              <button className="cart-button" onClick={handleAddToCart}>
                 <AiOutlineShoppingCart />
                 <span>Add to cart</span>
               </button>
-              <button className='wishlist-button'>
+              <button className='wishlist-button' onClick={handleAddToWishlist} >
                 <AiOutlineHeart />
               </button>
             </div>
@@ -58,12 +91,12 @@ const ProductPage = () => {
         </div>
       </div>
 
-      <div className="suggestions">
+      {/* <div className="suggestions">
         <div className="header">
           Products that you might like :
         </div>
         <Products />
-      </div>
+      </div> */}
     </div>
   )
 }

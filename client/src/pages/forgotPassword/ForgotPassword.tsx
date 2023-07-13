@@ -25,8 +25,7 @@ const ForgotPassword = () => {
             <p>Please enter the email address you used in registering, a temporary email will ben sent to reset your password</p>
           </div>
           <div className="form-control">
-            <label htmlFor="email">Email address</label>
-            <input type="email" name="email" value={email || ''} onChange={handleChange} />
+            <input type="email" name="email" value={email || ''} onChange={handleChange} placeholder="Enter your email " />
             <button type="submit">Send reset link</button>
           </div>
           <hr />

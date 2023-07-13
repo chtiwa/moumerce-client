@@ -8,7 +8,6 @@ const initialState: SearchProps = {
   isSearchOpen: false
 }
 
-
 const searchSlice = createSlice({
   name: "search",
   initialState,

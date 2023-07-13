@@ -1,18 +1,28 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AiOutlineDelete, AiOutlineDown, AiOutlineLeft, AiOutlineTag, AiOutlineUp } from 'react-icons/ai'
 import './CartPage.scss'
 import { Link } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../../features/hooks'
+import { calculateTotal, decreaseQuantity, getCart, increaseQuantity, removeItem, setCart } from '../../features/cartSlice'
 
 const Cart = () => {
-  const products = [
-    { img: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8c2hvZXN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=1000&q=60", size: "m", title: "Blue shirt", price: 20, quantity: 2 },
-    { img: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8c2hvZXN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=1000&q=60", size: "m", title: "Blue shirt", price: 20, quantity: 2 },
-    { img: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8c2hvZXN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=1000&q=60", size: "m", title: "Blue shirt", price: 20, quantity: 2 },
-  ]
-
+  const { products, total, itemsLength } = useAppSelector((state) => state.cart)
+  const dispatch = useAppDispatch()
   const [voucher, setVoucher] = useState('')
+
+
+  useEffect(() => {
+    dispatch(getCart())
+    dispatch(calculateTotal())
+  }, [total])
+
+
   const handleChange = (e: any) => {
     setVoucher(e.target.value)
+  }
+  const handleSetCartCalcTotal = () => {
+    dispatch(setCart())
+    dispatch(calculateTotal())
   }
 
   return (
@@ -22,15 +32,15 @@ const Cart = () => {
       </div>
 
       <div className="bottom">
-        {products.length === 0 ? (
+        {products?.length === 0 ? (
           <span className='empty-cart-span'>There are no items in your cart</span>
         ) : (
           <>
             <ul className="left">
-              {products.map((product, index) => (
+              {products?.map((product, index) => (
                 <li className="item" key={index}>
                   <div className="img-title">
-                    <img src={product.img} alt="" />
+                    <img src={product.images[0]} alt="" />
                     <span>{product.title} </span>
                   </div>
                   <div className="item-wrapper">
@@ -38,14 +48,27 @@ const Cart = () => {
                     <div className="amount-btns">
                       <span>{product.quantity} </span>
                       <div className="up-down-wrapper">
-                        <button><AiOutlineUp /> </button>
-                        <button><AiOutlineDown /> </button>
+                        <button onClick={() => {
+                          dispatch(increaseQuantity({ product: product }))
+                          handleSetCartCalcTotal()
+                        }}>
+                          <AiOutlineUp />
+                        </button>
+                        <button onClick={() => {
+                          dispatch(decreaseQuantity(product))
+                          handleSetCartCalcTotal()
+                        }}>
+                          <AiOutlineDown />
+                        </button>
                       </div>
                     </div>
                     <div className="total">
                       ${product.price * product.quantity}
                     </div>
-                    <div className="delete">
+                    <div className="delete" onClick={() => {
+                      dispatch(removeItem({ _id: product._id }))
+                      handleSetCartCalcTotal()
+                    }} >
                       <AiOutlineDelete />
                     </div>
                   </div>
@@ -63,8 +86,8 @@ const Cart = () => {
             <div className="right">
               <ul className="heading">
                 <li className="item">
-                  <span>3 items </span>
-                  <span>$125</span>
+                  <span>{itemsLength} {itemsLength > 1 ? 'items' : 'item'}</span>
+                  <span>${total !== null ? total : ""}</span>
                 </li>
                 <li className="item">
                   <span>Shipping</span>
@@ -74,7 +97,7 @@ const Cart = () => {
               <div className="middle">
                 <div className="header">
                   <span>Total</span>
-                  <span>$133</span>
+                  <span>${total + 8}</span>
                 </div>
               </div>
               <div className="voucher">
@@ -90,7 +113,7 @@ const Cart = () => {
           </>
         )}
       </div>
-    </div>
+    </div >
   )
 }
 

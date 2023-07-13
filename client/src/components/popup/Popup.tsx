@@ -1,21 +1,22 @@
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import './Popup.scss'
+import { useAppDispatch, useAppSelector } from "../../features/hooks"
 import { AiOutlineInfoCircle } from "react-icons/ai"
+import { closePopup } from "../../features/popupSlice"
 
 const Popup = () => {
-  const [isOpen, setIsOpen] = useState(false)
-  const message = "Item added to wishlist"
-  const success = true
+  const { message, success, isPopupOpen } = useAppSelector((state) => state.popup)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setIsOpen(isOpen => !isOpen)
-    }, 10000)
+      dispatch(closePopup())
+    }, 4000)
     return () => clearInterval(timer)
-  }, [isOpen])
+  }, [isPopupOpen])
 
   return (
-    <div className={`${isOpen ? 'show-popup' : 'hide-popup'} ${success ? 'success' : 'error'} `}>
+    <div className={`${isPopupOpen ? 'show-popup' : 'hide-popup'} ${success ? 'success' : 'error'} `}>
       <span><AiOutlineInfoCircle /></span>
       <span>{message}</span>
     </div>

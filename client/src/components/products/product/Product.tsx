@@ -1,38 +1,51 @@
-import { useState, useEffect } from 'react'
+// import { useState, useEffect } from 'react'
 import { AiOutlineHeart } from 'react-icons/ai'
 import './Product.scss'
 import { BsFillCartPlusFill } from 'react-icons/bs'
-import ProductSkeleton from './ProductSkeleton'
+// import ProductSkeleton from './ProductSkeleton'
+import { Link } from 'react-router-dom'
+import { useAppDispatch } from '../../../features/hooks'
+import { openPopup } from '../../../features/popupSlice'
+import { increaseQuantity, setCart } from '../../../features/cartSlice'
+import { addToWishlist, setWishlist } from '../../../features/wishlistSlice'
 
-const Product = () => {
-  const [isLoading, setIsLoading] = useState(true)
+interface IProduct {
+  title: string
+  images: string[]
+  price: number
+  _id: string
+}
 
-  useEffect(() => {
-    const timout = setTimeout(() => {
-      setIsLoading(isLoading => !isLoading)
-    }, 1000)
-    return () => clearTimeout(timout)
-  }, [])
+const Product = ({ title, images, price, _id }: IProduct) => {
+  const dispatch = useAppDispatch()
 
-  const data = { title: "Blue sweatshirt", img1: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fG1vZGVsJTIwZnVsbCUyMGJvZHl8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=1000&q=60", img2: "https://images.unsplash.com/photo-1638656749922-9158fd414393?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Njl8fGZhc2hpb258ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=1000&q=60", price: 20, oldPrice: 25, isNew: true }
+  const handleAddToCart = () => {
+    dispatch(increaseQuantity({ product: { title, images, price, _id } }))
+    dispatch(openPopup({ success: true, message: `${title} was added to your cart` }))
+    dispatch(setCart())
+  }
 
-  if (isLoading) {
-    return <ProductSkeleton />
+  const handleAddToWishlist = () => {
+    dispatch(openPopup({ success: true, message: `${title} was added to your wishlist` }))
+    dispatch(addToWishlist({ title, images, price, _id }))
+    dispatch(setWishlist())
   }
 
   return (
     <div className='product'>
-      <div className="img-wrapper">
-        <img src={data.img1} alt="" className='img1' />
-        <img src={data.img2} alt="" className='img2' />
-        <span>
+      <div className="img-wrapper" >
+        <Link to={`/product/${_id}`}>
+          <img src={images[0]} alt="" className='img1' />
+          <img src={images[1]} alt="" className='img2' />
+        </Link>
+        <span onClick={handleAddToWishlist} >
           <AiOutlineHeart />
         </span>
       </div>
       <div className="info">
-        <span className="title">{data.title}</span>
-        <span className="price">${data.price}</span>
-        <button>
+        <span className="title">{title}</span>
+        <span className="price">${price}</span>
+        <button onClick={handleAddToCart} >
           <BsFillCartPlusFill />
           <span>Add to cart</span>
         </button>

@@ -1,10 +1,17 @@
+import { useState, useEffect } from 'react'
 import { AiOutlineDown, AiOutlineHeart } from 'react-icons/ai'
 import './TopSection.scss'
 import { Link } from 'react-router-dom'
+import { useAppSelector } from '../../features/hooks'
 
 const TopSection = () => {
-  const user = true
-  const wishlist = [0, 0, 0]
+  const [productsLength, setProductsLength] = useState(0)
+  const { products } = useAppSelector(state => state.wishlist)
+
+  useEffect(() => {
+    setProductsLength(products.length)
+  }, [products])
+
   return (
     <div className='top-section'>
       <ul className="left">
@@ -26,7 +33,7 @@ const TopSection = () => {
         <Link to='/user'>
           <li className="item">
             <AiOutlineHeart />
-            Wishlist ({user ? wishlist.length : 0})
+            Wishlist ({productsLength})
           </li>
         </Link>
       </ul>

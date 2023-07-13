@@ -1,15 +1,18 @@
 import './Featured.scss'
 import Products from '../../components/products/Products'
+import { useGetFeaturedProductsQuery } from '../../services/products'
 
 const Featured = () => {
-  return (
+  const { data, isLoading } = useGetFeaturedProductsQuery()
+
+  return !isLoading && (
     <div className='featured'>
       <div className="title">
         <h2>Our finest selection</h2>
         <hr />
         <p>From Over 300 items</p>
       </div>
-      <Products />
+      <Products products={data.products} isLoading={isLoading} />
     </div>
   )
 }

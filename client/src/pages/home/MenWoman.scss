@@ -5,7 +5,7 @@
   padding: 0.5rem;
   gap: 0.5rem;
 
-  .right,  
+  .right,
   .left {
     position: relative;
     height: 100%;
@@ -14,7 +14,7 @@
     &:hover {
       scale: 1.01;
     }
-    
+
     img {
       width: 100%;
       height: 100%;
@@ -37,11 +37,11 @@
       color: var(--white);
       border-radius: 0.2rem;
       font-weight: 700;
-      // opacity: 0.85;
+      font-size: 18px;
       box-shadow: 0 0 0 2px var(--white);
 
       &:hover {
-        background-color:inherit ;
+        background-color: inherit;
       }
 
     }
@@ -57,7 +57,7 @@
     .left {
       height: 50%;
       width: 100%;
-      
+
       img {
         width: 100%;
         height: 100%;

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import './Hero.scss'
 
 interface HeroProps {
@@ -22,7 +23,9 @@ const Hero = ({ counter, setCounter }: HeroProps) => {
             <h3>{info.primaryText}</h3>
             <h1>{info.secondaryText}</h1>
             <p>{info.description} </p>
-            <button className="home-hero-btn" >SHOP NOW</button>
+            <Link to='/products'>
+              <button className="home-hero-btn" >SHOP NOW</button>
+            </Link>
           </div>
         </div>
       ))}

@@ -1,8 +1,10 @@
 import './BreadCrumps.scss'
 import { Link, useLocation } from 'react-router-dom'
+import { useAppSelector } from '../../features/hooks'
 
 const BreadCrumps = () => {
   const location = useLocation()
+  const { title } = useAppSelector((state) => state.products)
 
   if (location.pathname === "/") {
     return <></>
@@ -17,7 +19,7 @@ const BreadCrumps = () => {
       </Link>
       <span>/</span>
       {/* i need to get the product's title from redux store  */}
-      <span>Product's title</span>
+      <span>{title} </span>
     </>
   } else if (location.pathname.split("/")[1] === "forgot-password") {
     breadcrumps = <Link to='/forgot-password'>

@@ -25,9 +25,11 @@
     .left {
       display: flex;
       flex-direction: column;
+      align-items: flex-start;
       gap: 1.5rem;
 
       .item {
+        width: 100%;
         display: flex;
         align-items: center;
         justify-content: space-around;
@@ -51,6 +53,7 @@
           }
 
           span {
+            width: 100px;
             font-size: 14px;
             color: var(--gray);
           }
@@ -279,6 +282,7 @@
     .bottom {
       .left {
         width: 100%;
+        align-items: center;
 
         .item {
           padding-bottom: 1.5rem;

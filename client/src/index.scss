@@ -32,6 +32,7 @@
 body {
   font-family: 'Poppins', sans-serif;
   color: var(--dark);
+  scroll-behavior: smooth;
 }
 
 a {
@@ -77,6 +78,14 @@ select {
   border: 5px solid var(--light);
   border-top: 5px solid var(--primary);
   animation: spin 1s linear infinite;
+}
+
+.loader-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
 }
 
 @keyframes spin {

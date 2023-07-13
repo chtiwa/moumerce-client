@@ -24,49 +24,49 @@ const Categories = () => {
         <div className="col">
           <div className="row">
             <img src={data[0].image} alt="" />
-            <button>{data[0].title}</button>
+            {/* <button>{data[0].title}</button> */}
           </div>
           <div className="row">
             <img src={data[1].image} alt="" />
-            <button>{data[1].title}</button>
+            {/* <button>{data[1].title}</button> */}
           </div>
           <div className="row">
             <img src={data[7].image} alt="" />
-            <button>{data[7].title}</button>
+            {/* <button>{data[7].title}</button> */}
           </div>
         </div>
         <div className="col col-l">
           <div className="row">
             <img src={data[2].image} alt="" />
-            <button>{data[2].title}</button>
+            {/* <button>{data[2].title}</button> */}
           </div>
           <div className="row">
             <img src={data[8].image} alt="" />
-            <button>{data[8].title}</button>
+            {/* <button>{data[8].title}</button> */}
           </div>
         </div>
         <div className="col col-l">
           <div className="row">
             <img src={data[3].image} alt="" />
-            <button>{data[3].title}</button>
+            {/* <button>{data[3].title}</button> */}
           </div>
           <div className="row">
             <img src={data[4].image} alt="" />
-            <button>{data[4].title}</button>
+            {/* <button>{data[4].title}</button> */}
           </div>
         </div>
         <div className="col">
           <div className="row">
             <img src={data[6].image} alt="" />
-            <button>{data[6].title}</button>
+            {/* <button>{data[6].title}</button> */}
           </div>
           <div className="row">
             <img src={data[5].image} alt="" />
-            <button>{data[5].title}</button>
+            {/* <button>{data[5].title}</button> */}
           </div>
           <div className="row">
             <img src={data[9].image} alt="" />
-            <button>{data[9].title}</button>
+            {/* <button>{data[9].title}</button> */}
           </div>
         </div>
       </div>

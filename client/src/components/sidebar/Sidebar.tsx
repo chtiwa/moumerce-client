@@ -58,10 +58,10 @@ const Sidebar = () => {
           <span>English</span>
           <span>USD$</span>
         </div>
-        <div>
+        <Link to='/authentication' onClick={() => dispatch(closeSidebar())} >
           <AiOutlineUser />
           <span>Sign in</span>
-        </div>
+        </Link>
       </div>
     </div>
   )

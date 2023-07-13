@@ -1,21 +1,35 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { MdVisibilityOff, MdVisibility } from 'react-icons/md'
 import './AuthPage.scss'
 import { AiOutlineInfoCircle } from 'react-icons/ai'
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { useLoginMutation, useRegisterMutation } from '../../features/authApiSlice'
+import { useAppDispatch, useAppSelector } from '../../features/hooks'
+import { setCredentials } from '../../features/authSlice'
+import { openPopup } from '../../features/popupSlice'
 
 interface Form {
-  firstName: string
-  lastName: string
+  firstName: string | null
+  lastName: string | null
   email: string
   password: string
 }
 
 const AuthPage = () => {
+  const { isLoggedIn } = useAppSelector(state => state.auth)
   const [form, setForm] = useState<Form>({ firstName: '', lastName: '', email: '', password: '' })
+  const [formBlur, setFormBlur] = useState({ firstName: false, lastName: false, email: false, password: false })
   const [isLogin, setIsLogin] = useState(false)
   const [isShowPassword, setIsShowPassword] = useState(false)
   const [errors, setErrors] = useState({ firstName: '', lastName: '', email: '', password: '' })
+  const navigate = useNavigate()
+  const [login, loginResult] = useLoginMutation()
+  const [register, registerResult] = useRegisterMutation()
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if (isLoggedIn) navigate('/products')
+  }, [isLoggedIn])
 
   const handleChange = (e: any) => {
     const { name, value } = e.target
@@ -26,14 +40,22 @@ const AuthPage = () => {
     })
   }
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault()
     if (!isValid()) return
-    // if (isLogin) {
-    //   dispatch(login(form))
-    // } else {
-    //   dispatch(register(form))
-    // }
+    if (isLogin) {
+      const data = await login({ ...form }).unwrap()
+      if (!loginResult.isLoading && !loginResult.isError) {
+        dispatch(setCredentials({ ...data }))
+        navigate('/products')
+      }
+    } else {
+      const data = await register({ ...form }).unwrap()
+      if (!registerResult.isLoading && !registerResult.isError) {
+        dispatch(setCredentials({ ...data }))
+        navigate('/products')
+      }
+    }
   }
 
   const validate = (form: Form) => {
@@ -72,9 +94,15 @@ const AuthPage = () => {
   }
 
   const isValid = () => {
-    return (
-      errors.firstName.length === 0 && errors.lastName.length === 0 && errors.email.length === 0 && errors.password.length === 0
-    )
+    if (isLogin) {
+      return (
+        errors.email.length === 0 && errors.password.length === 0
+      )
+    } else {
+      return (
+        errors.firstName.length === 0 && errors.lastName.length === 0 && errors.email.length === 0 && errors.password.length === 0
+      )
+    }
   }
 
   const validateEmail = (email: string) => {
@@ -82,11 +110,13 @@ const AuthPage = () => {
     return emailRegex.test(email)
   }
 
-  return (
+  return isLoggedIn ? (
+    <Navigate to='/user' />
+  ) : (
     <div className='auth'>
       <div className="wrapper">
         <h3>
-          {isLogin ? 'Login to your account' : 'Create an account'}
+          {isLogin ? 'Login into your account' : 'Create an account'}
         </h3>
         <form onSubmit={handleSubmit}>
           {!isLogin && (
@@ -94,18 +124,18 @@ const AuthPage = () => {
               <div className="form-control">
                 <label htmlFor="firstName">First name</label>
                 <div className="inner">
-                  <input type="text" name="firstName" value={form.firstName || ''} onChange={handleChange} />
-                  {errors.firstName.length > 0 && (
-                    <span className="error">{errors.firstName} </span>
+                  <input type="text" name="firstName" value={form.firstName || ''} onChange={handleChange} onBlur={() => setFormBlur({ ...formBlur, firstName: true })} />
+                  {errors.firstName.length > 0 && formBlur.firstName && (
+                    <span className="error-span">{errors.firstName} </span>
                   )}
                 </div>
               </div>
               <div className="form-control">
                 <label htmlFor="lastName">Last name</label>
                 <div className="inner">
-                  <input type="text" name="lastName" value={form.lastName || ''} onChange={handleChange} />
-                  {errors.lastName.length > 0 && (
-                    <span className="error">{errors.lastName} </span>
+                  <input type="text" name="lastName" value={form.lastName || ''} onChange={handleChange} onBlur={() => setFormBlur({ ...formBlur, lastName: true })} />
+                  {errors.lastName.length > 0 && formBlur.lastName && (
+                    <span className="error-span">{errors.lastName} </span>
                   )}
                 </div>
               </div>
@@ -114,18 +144,18 @@ const AuthPage = () => {
           <div className="form-control">
             <label htmlFor="email">Email</label>
             <div className="inner">
-              <input type="email" name="email" value={form.email || ''} onChange={handleChange} />
-              {errors.email.length > 0 && (
-                <span className="error">{errors.email} </span>
+              <input type="email" name="email" value={form.email || ''} onChange={handleChange} onBlur={() => setFormBlur({ ...formBlur, email: true })} />
+              {errors.email.length > 0 && formBlur.email && (
+                <span className="error-span">{errors.email} </span>
               )}
             </div>
           </div>
           <div className="form-control form-control-password">
             <label htmlFor="password">Password</label>
             <div className="inner">
-              <input type={`${isShowPassword ? 'text' : 'password'}`} name="password" value={form.password || ''} onChange={handleChange} />
-              {errors.password.length > 0 && (
-                <span className="error">{errors.password} </span>
+              <input type={`${isShowPassword ? 'text' : 'password'}`} name="password" value={form.password || ''} onChange={handleChange} onBlur={() => setFormBlur({ ...formBlur, password: true })} />
+              {errors.password.length > 0 && formBlur.password && (
+                <span className="error-span">{errors.password} </span>
               )}
               {isShowPassword ? (<div className="form-control-password-icon" onClick={() => setIsShowPassword(isShowPassword => !isShowPassword)}>
                 <MdVisibilityOff />

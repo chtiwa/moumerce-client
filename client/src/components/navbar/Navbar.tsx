@@ -1,4 +1,5 @@
-import { Link, NavLink } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import './Navbar.scss'
 import { AiOutlineUser, AiOutlineSearch, AiOutlineShoppingCart, AiOutlineMenu } from 'react-icons/ai'
 import Cart from '../cart/Cart'
@@ -6,12 +7,34 @@ import { useAppDispatch, useAppSelector } from '../../features/hooks'
 import { openCart } from '../../features/cartSlice'
 import { openSidebar } from '../../features/sidebarSlice'
 import { openSearch } from '../../features/searchSlice'
+import { useCheckLoginMutation } from '../../features/authApiSlice'
+import { setCredentials } from '../../features/authSlice'
 
 const Navbar = () => {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const { isSidebarOpen } = useAppSelector(state => state.sidebar)
-  const { isCartOpen } = useAppSelector(state => state.cart)
+  const { isCartOpen, itemsLength } = useAppSelector(state => state.cart)
+  const { isLoggedIn, firstName } = useAppSelector(state => state.auth)
+  const [checkLogin, checkLoginResult] = useCheckLoginMutation()
 
+  useEffect(() => {
+    const handleCheckLogin = async () => {
+      try {
+        const { data } = await checkLogin()
+        if (!checkLoginResult.isLoading && !checkLoginResult.isError) {
+          dispatch(setCredentials(data))
+        }
+      } catch (error) {
+        if (error?.status === 403) {
+          const data = { isLoggedIn: false }
+          dispatch(setCredentials(data))
+          navigate('/authentication')
+        }
+      }
+    }
+    handleCheckLogin()
+  }, [])
 
   return (
     <div className='navbar'>
@@ -54,17 +77,31 @@ const Navbar = () => {
           <AiOutlineSearch />
           <span>Search</span>
         </li>
-        <Link to="/authentication">
-          <li className="item">
-            <AiOutlineUser />
-            <span>Sign in</span>
-          </li>
-        </Link>
+        <li className="item" onClick={() => navigate('/user')} >
+          {!checkLoginResult.isLoading && !checkLoginResult.isError && isLoggedIn ? (
+            <Link to="/user">
+              <span className="first-name">
+                {firstName?.charAt(0)}
+              </span>
+              <span>{firstName?.toUpperCase()}</span>
+            </Link>
+          ) : (
+            <Link to="/authentication">
+              <AiOutlineUser />
+              <span>Sign in</span>
+            </Link>
+          )}
+        </li>
         <li className="item" onClick={() => {
           if (isSidebarOpen) return
           dispatch(openCart())
         }} >
-          <AiOutlineShoppingCart />
+          <div className="icon-wrapper">
+            <AiOutlineShoppingCart />
+            {itemsLength > 0 && (
+              <span className="items-length" >{itemsLength}</span>
+            )}
+          </div>
           <span>Cart</span>
           <Cart />
         </li>
@@ -75,7 +112,7 @@ const Navbar = () => {
           <AiOutlineMenu />
         </li>
       </ul>
-    </div>
+    </div >
   )
 }
 
