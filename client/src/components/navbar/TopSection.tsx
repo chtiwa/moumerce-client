@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { useAppSelector } from '../../features/hooks'
 
 const TopSection = () => {
+  const { isLoggedIn } = useAppSelector(state => state.auth)
   const [productsLength, setProductsLength] = useState(0)
   const { products } = useAppSelector(state => state.wishlist)
 
@@ -30,7 +31,7 @@ const TopSection = () => {
           <AiOutlineDown />
         </li>
         <hr />
-        <Link to='/user'>
+        <Link to={`${isLoggedIn ? '/user' : '/authentication'}`}>
           <li className="item">
             <AiOutlineHeart />
             Wishlist ({productsLength})
