@@ -79,7 +79,7 @@ const Navbar = () => {
           <span>Search</span>
         </li>
         <li className="item" >
-          {!checkLoginResult.isLoading && !checkLoginResult.isError && isLoggedIn ? (
+          {isLoggedIn ? (
             <Link to="/user">
               <span className="first-name">
                 {firstName?.charAt(0)}
