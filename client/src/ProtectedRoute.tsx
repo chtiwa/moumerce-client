@@ -1,13 +1,17 @@
-import { Navigate, Outlet } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { useAppSelector } from './features/hooks'
 
-const ProtectedRoute = () => {
+interface ProtectedRouteProps {
+  children: React.ReactNode
+}
+
+const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { token } = useAppSelector(state => state.auth)
 
   return token !== '' ? (
-    <Outlet />
+    { children }
   ) : (
-    <Navigate to='/authentication' />
+    <Navigate to='/products' />
   )
 }
 

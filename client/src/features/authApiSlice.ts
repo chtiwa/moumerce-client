@@ -1,6 +1,4 @@
-// @ts-nocheck
-
-import { authApi } from "../services/auth";
+import { authApi } from "../services/auth"
 
 export const authApiSlice = authApi.injectEndpoints({
   endpoints: (builder) => ({

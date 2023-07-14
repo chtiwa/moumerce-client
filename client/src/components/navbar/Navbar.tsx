@@ -78,7 +78,7 @@ const Navbar = () => {
           <AiOutlineSearch />
           <span>Search</span>
         </li>
-        <li className="item" onClick={() => navigate('/user')} >
+        <li className="item" >
           {!checkLoginResult.isLoading && !checkLoginResult.isError && isLoggedIn ? (
             <Link to="/user">
               <span className="first-name">

@@ -15,11 +15,11 @@ const baseQuery = fetchBaseQuery({
   // }
 })
 
-const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
+const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions)
   if (result?.error?.status === 403) {
     // send a refresh token to get a new access token
-    const refreshResult = await baseQuery('/check-login', api, extraOptions) as unkown
+    const refreshResult = await baseQuery('/check-login', api, extraOptions)
     // console.log(refreshResult)
     if (refreshResult?.data) {
       const firstName = api.getState().auth.firstname
@@ -36,8 +36,7 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
 }
 
 export const authApi = createApi({
-  baseQuery: baseQueryWithReauth
-  // endpoints: (builder) => ({
-  //   here we can type the request that require an access token
-  // })
+  baseQuery: baseQueryWithReauth,
+  endpoints: (builder) => ({
+  })
 })
