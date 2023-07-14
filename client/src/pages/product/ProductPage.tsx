@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../features/hooks'
 import { setProductTitle } from '../../features/productsSlice'
 import { openPopup } from '../../features/popupSlice'
 import { calculateTotal, increaseQuantity, setCart } from '../../features/cartSlice'
+import { addToWishlist, setWishlist } from '../../features/wishlistSlice'
 
 const ProductPage = () => {
   const dispatch = useAppDispatch()
@@ -50,6 +51,8 @@ const ProductPage = () => {
 
   const handleAddToWishlist = () => {
     dispatch(openPopup({ success: true, message: `${data.product.title} was added to your wishlist` }))
+    dispatch(addToWishlist({ data.product.title, data.product.images, data.product.price, data.product._id }))
+    dispatch(setWishlist())
   }
 
   return !isLoading && (
