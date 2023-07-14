@@ -51,7 +51,7 @@ const ProductPage = () => {
 
   const handleAddToWishlist = () => {
     dispatch(openPopup({ success: true, message: `${data.product.title} was added to your wishlist` }))
-    dispatch(addToWishlist({ data.product.title, data.product.images, data.product.price, data.product._id }))
+    dispatch(addToWishlist(data.product))
     dispatch(setWishlist())
   }
 
