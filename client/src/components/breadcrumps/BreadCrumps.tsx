@@ -18,7 +18,7 @@ const BreadCrumps = () => {
         Products
       </Link>
       <span>/</span>
-      {/* i need to get the product's title from redux store  */}
+      {/* get the product's title from redux store  */}
       <span>{title} </span>
     </>
   } else if (location.pathname.split("/")[1] === "forgot-password") {

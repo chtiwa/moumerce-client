@@ -35,7 +35,16 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
   return result
 }
 
+// createOrder
+// createCart
+// getOrders
+// populate Order
+// ...
+// should be in here
 export const authApi = createApi({
+  // whent the access_token is expired send a request to check-login to check wether the refresh_token is expired or not
+  // if it's not then malke the request 
+  // else logout the user
   baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
   })

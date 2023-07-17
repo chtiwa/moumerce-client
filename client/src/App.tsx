@@ -11,6 +11,7 @@ import ProductsPage from './pages/products/ProductsPage'
 import ProductPage from './pages/product/ProductPage'
 import ForgotPassword from './pages/forgotPassword/ForgotPassword'
 import User from './pages/user/User'
+import CheckoutPage from './pages/checkout/CheckoutPage'
 // import ProtectedRoute from './ProtectedRoute'
 
 const App = () => {
@@ -39,6 +40,11 @@ const App = () => {
           <Route path='/user' element={
             <Suspense fallback={<Fallback />} >
               <User />
+            </Suspense>
+          } />
+          <Route path='/checkout' element={
+            <Suspense fallback={<Fallback />} >
+              <CheckoutPage />
             </Suspense>
           } />
           <Route path='/fallback' element={<Fallback />} />

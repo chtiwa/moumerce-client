@@ -1,0 +1,110 @@
+.totalbox {
+  margin-top: 1rem;
+  box-shadow: 0 0 0 1px var(--rgba-1);
+  width: 450px;
+  max-height: 250px;
+  margin: 2rem 3rem;
+
+  .heading {
+    padding: 0.5rem 1rem;
+    color: var(--dark);
+    box-shadow: 0 1px 0 var(--rgba-1);
+
+    .item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 0.4rem;
+      font-size: 14px;
+    }
+  }
+
+  .middle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .header {
+      padding: 0.5rem 0.8rem;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 22px;
+      font-weight: 500;
+    }
+  }
+
+  .voucher {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    box-shadow: 0 1px 0 var(--rgba-1);
+    border-top: 1px solid var(--rgba-1);
+    background-color: var(--f6);
+
+    input {
+      box-shadow: 0 0 0 1px var(--rgba-1);
+      width: 100%;
+      padding: 0.25rem 0.5rem;
+      font-size: 14px;
+    }
+
+    svg {
+      position: absolute;
+      top: 1.3rem;
+      right: 1.5rem;
+      font-size: 20px;
+    }
+  }
+
+  .checkout-btn {
+    padding: 1rem;
+
+    button {
+      background-color: var(--black);
+      color: var(--white);
+      padding: 0.75rem 1.5rem;
+      width: 100%;
+      font-size: 15px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--white);
+        color: var(--black);
+        box-shadow: 0 0 0 1px var(--black);
+      }
+    }
+  }
+}
+
+@media screen and (max-width:1000px) {
+  .totalbox {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width:800px) {
+  .totalbox {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width:500px) {
+  .totalbox {
+    width: 95%;
+  }
+}
+
+@media screen and (max-width:370px) {
+  .totalbox {
+
+    .checkout-btn {
+      button {
+        padding: 0.5rem;
+      }
+    }
+  }
+}

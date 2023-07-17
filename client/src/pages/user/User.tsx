@@ -1,25 +1,19 @@
-import { useEffect } from 'react'
-import { AiOutlineDelete, AiOutlineHeart, AiOutlineHistory, AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai'
+import { useState } from 'react'
+import { AiOutlineHeart, AiOutlineHistory, AiOutlineUser } from 'react-icons/ai'
 import './User.scss'
 import { MdLogout, MdOutlineLocationOn } from 'react-icons/md'
 import { useAppDispatch, useAppSelector } from '../../features/hooks'
-import { increaseQuantity } from '../../features/cartSlice'
-import { getWishlist, removeFromWishlist, setWishlist } from '../../features/wishlistSlice'
-import { openPopup } from '../../features/popupSlice'
 import { useLogoutMutation } from '../../features/authApiSlice'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { setCredentials } from '../../features/authSlice'
+import Wishlist from './Wishlist'
 
 const User = () => {
-  const { products } = useAppSelector(state => state.wishlist)
+  const [currentComponent, setCurrentComponent] = useState('wishlist')
   const { isLoggedIn } = useAppSelector(state => state.auth)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const [logout, logoutResult] = useLogoutMutation()
-
-  useEffect(() => {
-    dispatch(getWishlist())
-  }, [])
 
   const handleLogout = async () => {
     const { data }: any = await logout('')
@@ -27,6 +21,17 @@ const User = () => {
       dispatch(setCredentials(data))
       navigate('/products')
     }
+  }
+
+  let component
+  if (currentComponent === "wishlist") {
+    component = <Wishlist />
+  } else if (currentComponent === "information") {
+    component = <Wishlist />
+  } else if (currentComponent === "orders") {
+    component = <Wishlist />
+  } else if (currentComponent === "address") {
+    component = <Wishlist />
   }
 
   return !isLoggedIn ? (
@@ -38,19 +43,19 @@ const User = () => {
       </div>
       <div className="bottom">
         <ul className="left">
-          <li className="item">
+          <li className="item" onClick={() => setCurrentComponent('information')}>
             <span><AiOutlineUser /></span>
             <span>Information</span>
           </li>
-          <li className="item">
+          <li className="item" onClick={() => setCurrentComponent('address')}>
             <span><MdOutlineLocationOn /></span>
             <span>First address</span>
           </li>
-          <li className="item">
+          <li className="item" onClick={() => setCurrentComponent('orders')}>
             <span><AiOutlineHistory /></span>
             <span>Order history</span>
           </li>
-          <li className="item">
+          <li className="item" onClick={() => setCurrentComponent('wishlist')}>
             <span><AiOutlineHeart /></span>
             <span>Wishlist</span>
           </li>
@@ -60,34 +65,7 @@ const User = () => {
           </li>
         </ul>
         <ul className="right">
-          {products?.length > 0 ? (
-            products.map((product, index) => (
-              <li className="item" key={index}>
-                <img src={product.images[0]} alt="" />
-                <div className="title">{product.title} </div>
-                <div className="price">${product.price} </div>
-                <div className="quantity">x 1 </div>
-                <button className="add-to-cart" onClick={() => {
-                  dispatch(increaseQuantity({ product: product }))
-                  dispatch(openPopup({ success: true, message: `${product.title} was added to your cart` }))
-                }} >
-                  <AiOutlineShoppingCart />
-                  <span>Add to cart</span>
-                </button>
-                <div className="delete-btn" onClick={() => {
-                  dispatch(removeFromWishlist(product._id))
-                  dispatch(setWishlist())
-                }} >
-                  <AiOutlineDelete />
-                </div>
-              </li>
-            ))
-          ) : (
-            <li className="item">
-              Your wishlist is empty.
-            </li>
-          )
-          }
+          {component}
         </ul>
       </div>
     </div>

@@ -107,7 +107,7 @@ const Cart = () => {
           </div>
 
           <div className="buttons">
-            <button className='checkout' onClick={() => handleClickBtn('checkout')}>
+            <button className='checkout-btn' onClick={() => handleClickBtn('checkout')}>
               Checkout
             </button>
             <button className="cart" onClick={() => handleClickBtn('cart')}>

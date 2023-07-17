@@ -46,31 +46,31 @@ const Navbar = () => {
       </NavLink>
 
       <ul className="links">
-        <li className="item">
-          <Link to="/products?categories=all">
+        <Link to="/products?categories=all">
+          <li className="item">
             CATEGORIES
-          </Link>
-        </li>
-        <li className="item">
-          <Link to="/products?gender=man">
+          </li>
+        </Link>
+        <Link to="/products?gender=man">
+          <li className="item">
             MEN
-          </Link>
-        </li>
-        <li className="item">
-          <Link to="/products?gender=woman">
+          </li>
+        </Link>
+        <Link to="/products?gender=woman">
+          <li className="item">
             WOMEN
-          </Link>
-        </li>
-        <li className="item">
-          <Link to="/products?type=sport">
+          </li>
+        </Link>
+        <Link to="/products?type=sport">
+          <li className="item">
             SPORT
-          </Link>
-        </li>
-        <li className="item">
-          <Link to="/products?type=fashion">
+          </li>
+        </Link>
+        <Link to="/products?type=fashion">
+          <li className="item">
             FASHION
-          </Link>
-        </li>
+          </li>
+        </Link>
       </ul>
 
       <ul className="icons">

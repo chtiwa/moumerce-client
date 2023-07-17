@@ -5,12 +5,16 @@ interface AuthProps {
   firstName: string
   isLoggedIn: boolean
   token: string
+  userId: string
+  role: string
 }
 
 const initialState: AuthProps = {
   firstName: '',
   isLoggedIn: false,
-  token: ''
+  token: '',
+  userId: '',
+  role: 'user'
 }
 
 const authSlice = createSlice({
@@ -18,8 +22,11 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setCredentials: (state, action) => {
-      const { isLoggedIn, firstName, accessToken } = action.payload
+      const { isLoggedIn, firstName, accessToken, userId, role } = action.payload
+      console.log(userId)
       state.firstName = firstName
+      state.userId = userId
+      state.role = role
       state.isLoggedIn = isLoggedIn
       state.token = accessToken
     },

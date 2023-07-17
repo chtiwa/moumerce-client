@@ -1,25 +1,20 @@
-import { useEffect, useState } from 'react'
-import { AiOutlineDelete, AiOutlineDown, AiOutlineLeft, AiOutlineTag, AiOutlineUp } from 'react-icons/ai'
+import { useEffect } from 'react'
+import { AiOutlineDelete, AiOutlineDown, AiOutlineLeft, AiOutlineUp } from 'react-icons/ai'
 import './CartPage.scss'
 import { Link } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../features/hooks'
 import { calculateTotal, decreaseQuantity, getCart, increaseQuantity, removeItem, setCart } from '../../features/cartSlice'
+import TotalBox from '../../components/TotalBox/TotalBox'
 
 const Cart = () => {
-  const { products, total, itemsLength } = useAppSelector((state) => state.cart)
+  const { products, total } = useAppSelector((state) => state.cart)
   const dispatch = useAppDispatch()
-  const [voucher, setVoucher] = useState('')
-
 
   useEffect(() => {
     dispatch(getCart())
     dispatch(calculateTotal())
   }, [total])
 
-
-  const handleChange = (e: any) => {
-    setVoucher(e.target.value)
-  }
   const handleSetCartCalcTotal = () => {
     dispatch(setCart())
     dispatch(calculateTotal())
@@ -83,33 +78,7 @@ const Cart = () => {
                 </Link>
               </div>
             </ul>
-            <div className="right">
-              <ul className="heading">
-                <li className="item">
-                  <span>{itemsLength} {itemsLength > 1 ? 'items' : 'item'}</span>
-                  <span>${total !== null ? total : ""}</span>
-                </li>
-                <li className="item">
-                  <span>Shipping</span>
-                  <span>$8</span>
-                </li>
-              </ul>
-              <div className="middle">
-                <div className="header">
-                  <span>Total</span>
-                  <span>${total + 8}</span>
-                </div>
-              </div>
-              <div className="voucher">
-                <AiOutlineTag />
-                <input type="text" name="voucher" value={voucher || ""} onChange={handleChange} placeholder='Enter your promo code here' />
-              </div>
-              <div className="checkout">
-                <Link to='/prodcuts' >
-                  <button>Proceed to checkout </button>
-                </Link>
-              </div>
-            </div>
+            <TotalBox />
           </>
         )}
       </div>
