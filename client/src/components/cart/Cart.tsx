@@ -5,11 +5,13 @@ import { useAppDispatch, useAppSelector } from '../../features/hooks'
 import { closeCart, removeItem } from '../../features/cartSlice'
 import { AiOutlineClose, AiOutlineDelete, AiOutlineDown, AiOutlineUp } from 'react-icons/ai'
 import { setCart, getCart, increaseQuantity, decreaseQuantity, calculateTotal } from '../../features/cartSlice'
+import { openPopup } from '../../features/popupSlice'
 
 const Cart = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { isCartOpen, total, products, itemsLength } = useAppSelector((state) => state.cart)
+  const { isLoggedIn } = useAppSelector((state) => state.auth)
 
   useEffect(() => {
     dispatch(getCart())
@@ -23,9 +25,13 @@ const Cart = () => {
     dispatch(calculateTotal())
   }
 
-  const handleClickBtn = (to: string) => {
+  const handleClickBtn = (path: string) => {
     dispatch(closeCart())
-    navigate(to)
+    if (path === "checkout" && !isLoggedIn) {
+      dispatch(openPopup({ message: 'You must register first', success: false }))
+      return
+    }
+    navigate(path)
   }
 
   return (

@@ -4,8 +4,7 @@ import TotalBox from '../../components/TotalBox/TotalBox'
 import { openPopup } from '../../features/popupSlice'
 import { useAppDispatch, useAppSelector } from '../../features/hooks'
 import { useNavigate } from 'react-router-dom'
-import { useCreateCartMutation } from '../../services/carts'
-import { useCreateOrderMutation } from '../../services/orders'
+import { useCreateOrderMutation, useCreateCartMutation } from '../../services/auth'
 import Loader from '../../components/loader/Loader'
 
 interface Form {
@@ -39,17 +38,22 @@ const CheckoutPage = () => {
     }
     // create a cart then an order wich has the cart _id
     createCart({ products, total, user: userId })
-    // when the createCart request is done then create an order
-    if (!createCartResult.isLoading && !createCartResult.isError) {
-      console.log(createCartResult)
-      createOrder({ cartId: createCartResult.data.cart._id })
-    }
-
-    // when the createCart and createOrder requests are done then navigat to /user
-    if (!createCartResult.isLoading && !createCartResult.isError && !createOrderResult.isLoading && !createOrderResult.isError) {
-      navigate('/user')
-    }
+    // when the createCart request is done then create an order using the useEffect
   }
+
+  useEffect(() => {
+    if (!createCartResult.isLoading && !createCartResult.isError && createCartResult.isSuccess) {
+      // console.log(createCartResult)
+      createOrder({ cartId: createCartResult?.data?.cart?._id, user: userId })
+      // when the createCart and createOrder requests are done then navigate to /user
+      if (!createCartResult.isLoading && !createCartResult.isError && createCartResult.isSuccess && !createOrderResult.isLoading && !createOrderResult.isError) {
+        dispatch(openPopup({ message: 'Order was created successfully', success: true }))
+        setTimeout(() => {
+          navigate('/user')
+        }, 2000)
+      }
+    }
+  }, [createCartResult.isLoading, createCartResult.isError, createOrderResult.isLoading, createOrderResult.isError])
 
   const handleChange = (e: any) => {
     const { name, value } = e.target
@@ -106,7 +110,7 @@ const CheckoutPage = () => {
   // when the createCart or the createOrder is loading 
   // show the loading spinner 
   if (createCartResult.isLoading && !createCartResult.isError || createOrderResult.isLoading && !createOrderResult.isError) {
-    return <div className="loading-container">
+    return <div className="loader-container">
       <Loader />
     </div>
   }

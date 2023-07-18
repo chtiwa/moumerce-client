@@ -7,14 +7,17 @@ export const ordersApi = createApi({
   }),
   endpoints: (builder) => ({
     createOrder: builder.mutation<any, any>({
-      query: ({ cartId }) => ({
+      query: ({ cartId, userId }) => ({
         url: '/',
         method: 'POST',
-        body: { cart: cartId }
+        body: { cart: cartId, user: userId }
       })
+    }),
+    getOrders: builder.query<any, any>({
+      query: () => `/`
     })
   })
 })
 
 // should be in authSliceAPi
-export const { useCreateOrderMutation } = ordersApi
+export const { useCreateOrderMutation, useGetOrdersQuery } = ordersApi

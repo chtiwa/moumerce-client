@@ -7,6 +7,7 @@ import { useLogoutMutation } from '../../features/authApiSlice'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { setCredentials } from '../../features/authSlice'
 import Wishlist from './Wishlist'
+import Orders from './Orders'
 
 const User = () => {
   const [currentComponent, setCurrentComponent] = useState('wishlist')
@@ -29,7 +30,7 @@ const User = () => {
   } else if (currentComponent === "information") {
     component = <Wishlist />
   } else if (currentComponent === "orders") {
-    component = <Wishlist />
+    component = <Orders />
   } else if (currentComponent === "address") {
     component = <Wishlist />
   }
