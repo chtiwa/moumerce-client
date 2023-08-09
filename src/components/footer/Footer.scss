@@ -1,0 +1,157 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+
+  .section {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--black);
+    color: var(--white);
+    font-size: 11px;
+    padding: 2rem 1rem;
+
+    .list {
+      width: 22%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 0.3rem;
+      margin-bottom: 0.5rem;
+
+      .item {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.3rem;
+        cursor: pointer;
+
+        &:hover {
+          svg {
+            margin-left: 0.3rem;
+          }
+        }
+      }
+
+      .bold {
+        font-weight: 500;
+      }
+
+      .heading {
+        font-size: 13px;
+        font-weight: 500;
+        box-shadow: 0 1px 0 var(--white);
+        width: 100%;
+        margin-bottom: 0.5rem;
+        cursor: default;
+      }
+    }
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1.5rem;
+    background-color: var(--dark);
+    color: var(--white);
+    padding: 2rem 1rem;
+
+    .title {
+      font-weight: 700;
+      font-size: 50px;
+    }
+
+    .socials {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      padding-bottom: 0.5rem;
+
+      svg {
+        font-size: 20px;
+        cursor: pointer;
+      }
+
+      .facebook {
+        &:hover {
+          color: var(--blue);
+        }
+      }
+
+      .instagram {
+        &:hover {
+          color: orange;
+        }
+      }
+
+      .twitter {
+        &:hover {
+          color: rgb(121, 215, 247);
+        }
+      }
+
+      .linkedin {
+        &:hover {
+          color: rgb(61, 61, 255);
+        }
+      }
+
+      .google {
+        &:hover {
+          color: var(--green);
+        }
+      }
+    }
+
+    .copyright {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+      font-size: 12px;
+    }
+  }
+}
+
+
+@media screen and (max-width:630px) {
+  .footer {
+    .section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+      gap: 1rem;
+
+      .list {
+        width: 100%;
+      }
+    }
+
+    .logo {
+      .title {
+        font-size: 36px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width:630px) {
+  .footer {
+    .section {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .logo {
+      .copyright {
+        align-items: flex-start;
+
+        svg {
+          margin-top: 0.2rem;
+        }
+      }
+    }
+  }
+}

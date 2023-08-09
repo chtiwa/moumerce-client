@@ -1,0 +1,29 @@
+.breadcrumps {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  color: var(--gray);
+  font-size: 13px;
+
+  a {
+    color: var(--gray);
+
+    &:hover {
+      opacity: 0.9;
+      box-shadow: 0 1px 0 var(--rgba-2);
+    }
+  }
+}
+
+@media screen and (max-width:450px) {
+  .breadcrumps {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    font-size: 10px;
+    padding: 1rem 1rem;
+    gap: 0.5rem;
+  }
+}

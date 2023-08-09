@@ -1,0 +1,161 @@
+.checkout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-bottom: 1rem;
+    width: 100%;
+    padding: 0 2rem;
+
+    h3 {
+      padding-bottom: 0.5rem;
+      box-shadow: 0 2px 0 var(--rgba-2);
+    }
+
+    form {
+      box-shadow: 0 0 4px -1px var(--rgba-2);
+      border-radius: 0.2rem;
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+
+      .form-control {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        width: 100%;
+
+        label {
+          width: 150px;
+          color: var(--gray);
+          font-size: 14px;
+          margin-top: 0.5rem;
+        }
+
+        // use the select-wrapper as input element
+        .select-wrapper {
+          width: 100%;
+          border-radius: 0.1rem;
+          box-shadow: 0 0 0 1px var(--gray);
+          padding: 0;
+          width: 100%;
+
+          select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 100%;
+            padding: 0.565rem;
+            border: 0;
+            outline: 0;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+          }
+        }
+
+        .inner {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          align-items: flex-start;
+          width: 100%;
+
+
+          input {
+            border: 0;
+            outline: 0;
+            border-radius: 0.1rem;
+            box-shadow: 0 0 0 1px var(--gray);
+            padding: 0.5rem 1rem;
+            width: 100%;
+          }
+        }
+
+        .error-span {
+          color: var(--red);
+          font-size: 14px;
+        }
+      }
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 300px;
+      margin: 0 auto;
+      padding: 0.75rem 1.25rem;
+      background-color: var(--black);
+      color: var(--white);
+      cursor: pointer;
+      font-weight: 500;
+
+      &:hover {
+        background-color: var(--white);
+        color: var(--black);
+        box-shadow: 0 0 0 1px var(--black);
+      }
+    }
+  }
+}
+
+@media screen and (max-width:580px) {
+  .checkout {
+    .wrapper {
+      padding: 0.5rem;
+      padding-bottom: 2rem;
+      gap: 1rem;
+
+      form {
+        padding: 1rem;
+
+        .form-control {
+          flex-direction: column;
+        }
+
+        button {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width:400px) {
+  .checkout {
+    .wrapper {
+      padding-bottom: 2rem;
+
+      form {
+        .form-control {
+          .select-wrapper {
+            select {
+              padding: 0.225rem;
+              font-size: 14px;
+            }
+          }
+
+          .inner {
+            input {
+              padding: 0.2rem 0.5rem;
+              font-size: 14px;
+            }
+          }
+        }
+
+        button {
+          padding: 0.75rem 1rem;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}

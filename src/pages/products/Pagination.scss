@@ -1,0 +1,48 @@
+.pagination {
+  width: 100%;
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: 30px;
+    background-color: var(--black);
+    color: var(--white);
+    cursor: pointer;
+    
+    svg {
+      font-size: 18px;
+    }
+    
+    &:hover {
+      box-shadow: 0 0 0 1px var(--black);
+      background-color: var(--white);
+      color: var(--black);
+    }
+
+    &:disabled {
+      opacity: 0.7;
+    }
+  }
+
+  .dots {
+    background-color: var(--white);
+    color: var(--black);
+    font-size: 24px;
+
+    &:hover {
+      cursor: default;
+      box-shadow: none;
+    }
+  }
+
+  .active {
+    opacity: 0.7;
+  }
+}

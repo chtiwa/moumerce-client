@@ -1,0 +1,18 @@
+.orders {
+  width: 100%;
+
+  .order {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    box-shadow: 0 0.5px 0 var(--white-2);
+
+    &:last-child {
+      box-shadow: none;
+    }
+  }
+}
