@@ -1,37 +1,36 @@
-import { useEffect, useState } from "react";
-import { AiOutlineDown, AiOutlineFilter, AiOutlineUp } from "react-icons/ai";
-import "./Filters.scss";
-import { useGetProductsByFiltersQuery } from "../../services/products";
-import { hideFilteredResults, setProducts } from "../../features/productsSlice";
-import { useAppDispatch } from "../../features/hooks";
+import { useEffect, useState } from "react"
+import { AiOutlineDown, AiOutlineFilter, AiOutlineUp } from "react-icons/ai"
+import "./Filters.scss"
+import { useGetProductsByFiltersQuery } from "../../services/products"
+import { hideFilteredResults, setProducts } from "../../features/productsSlice"
+import { useAppDispatch } from "../../features/hooks"
 
 const Filters = () => {
-  const dispatch = useAppDispatch();
-  const [isFiltersActive, setIsFiltersActive] = useState(false);
-  const [isSelectActive, setIsSelectActive] = useState(false);
+  const dispatch = useAppDispatch()
+  const [isFiltersActive, setIsFiltersActive] = useState(false)
+  const [isSelectActive, setIsSelectActive] = useState(false)
   const [filters, setFilters] = useState({
     sortBy: "",
     category: "",
     size: "",
-    price: 200,
-  });
-  const [skip, setSkip] = useState(true);
+    price: 200
+  })
+  const [skip, setSkip] = useState(true)
   const { data, isError, isLoading, isUninitialized } =
-    useGetProductsByFiltersQuery(filters, { skip: skip });
-  const [sortBy, setSortBy] = useState("");
-  const min = 0;
-  const [max, setMax] = useState(200);
+    useGetProductsByFiltersQuery(filters, { skip: skip })
+  const [sortBy, setSortBy] = useState("")
+  const min = 0
+  const [max, setMax] = useState(200)
 
-  const items = ["A to Z", "Z to A", "Low to high", "High to low"];
-  const sizes = ["XS", "S", "M", "L", "Xl", "XXl"];
-  const categories = ["Accessories", "Blouses", "Shirts", "Pants"];
+  const items = ["A to Z", "Z to A", "Low to high", "High to low"]
+  const sizes = ["XS", "S", "M", "L", "Xl", "XXl"]
+  const categories = ["Accessories", "Blouses", "Shirts", "Pants"]
 
   useEffect(() => {
-    setSkip(false);
+    setSkip(false)
     if (!isLoading && !isError && !isUninitialized) {
       // this action will set the showFilteredResults to true
-      console.log("useGetProductsByFiltersQuery", filters);
-      dispatch(setProducts({ products: data.products }));
+      dispatch(setProducts({ products: data.products }))
     }
     if (
       filters.sortBy === "" &&
@@ -39,37 +38,37 @@ const Filters = () => {
       filters.size === "" &&
       filters.price === 200
     ) {
-      dispatch(hideFilteredResults());
+      dispatch(hideFilteredResults())
     }
-  }, [filters, isError, isLoading, isUninitialized]);
+  }, [filters, isError, isLoading, isUninitialized])
 
   const handleClickItem = (item: string) => {
-    setSortBy(item);
+    setSortBy(item)
     setFilters((prev) => {
-      return { ...prev, sortBy: item };
-    });
-    setIsSelectActive(false);
-  };
+      return { ...prev, sortBy: item }
+    })
+    setIsSelectActive(false)
+  }
 
   const handleRangeChange = (e: any) => {
-    setMax(e.target.value);
+    setMax(e.target.value)
     setFilters((prev) => {
-      const updatedFilters = { ...prev, price: e.target.value };
-      return updatedFilters;
-    });
-  };
+      const updatedFilters = { ...prev, price: e.target.value }
+      return updatedFilters
+    })
+  }
 
   const handleClickCategory = (c: string) => {
     setFilters((prev) => {
-      return { ...prev, category: c };
-    });
-  };
+      return { ...prev, category: c }
+    })
+  }
 
   const handleClickSize = (s: string) => {
     setFilters((prev) => {
-      return { ...prev, size: s };
-    });
-  };
+      return { ...prev, size: s }
+    })
+  }
 
   return (
     <div className="filters">
@@ -124,7 +123,7 @@ const Filters = () => {
                 <input
                   type="checkbox"
                   onClick={() => handleClickCategory(c)}
-                  checked={c === filters.category ? true : false}
+                  defaultChecked={c === filters.category ? true : false}
                 />
                 <span>{c}</span>
               </li>
@@ -143,7 +142,7 @@ const Filters = () => {
                 <input
                   type="checkbox"
                   onClick={() => handleClickSize(s)}
-                  checked={s === filters.size ? true : false}
+                  defaultChecked={s === filters.size ? true : false}
                 />
                 <span>{s}</span>
               </li>
@@ -217,7 +216,7 @@ const Filters = () => {
               padding: "0.3rem 1rem",
               backgroundColor: "var(--white)",
               color: "var(--black)",
-              boxShadow: "0 0 0 1px var(--black)",
+              boxShadow: "0 0 0 1px var(--black)"
             }}
           >
             Reset
@@ -225,7 +224,7 @@ const Filters = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Filters;
+export default Filters
