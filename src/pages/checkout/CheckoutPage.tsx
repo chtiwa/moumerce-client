@@ -1,55 +1,52 @@
-import { useState, useEffect } from "react";
-import "./CheckoutPage.scss";
-import TotalBox from "../../components/TotalBox/TotalBox";
-import { openPopup } from "../../features/popupSlice";
-import { useAppDispatch, useAppSelector } from "../../features/hooks";
-import { useNavigate } from "react-router-dom";
-import {
-  useCreateOrderMutation,
-  useCreateCartMutation,
-} from "../../services/auth";
-import Loader from "../../components/loader/Loader";
+import { useState, useEffect } from "react"
+import "./CheckoutPage.scss"
+import TotalBox from "../../components/TotalBox/TotalBox"
+import { openPopup } from "../../features/popupSlice"
+import { useAppDispatch, useAppSelector } from "../../features/hooks"
+import { useNavigate } from "react-router-dom"
+import { useCreateCartMutation } from "../../services/auth"
+import Loader from "../../components/loader/Loader"
 
 interface Form {
-  firstName: string;
-  lastName: string;
-  state: string;
-  address: string;
-  phone: string;
+  firstName: string
+  lastName: string
+  state: string
+  address: string
+  phone: string
 }
 
 const CheckoutPage = () => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const { isLoggedIn, userId } = useAppSelector((state) => state.auth);
-  const { products, total } = useAppSelector((state) => state.cart);
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const { isLoggedIn, userId } = useAppSelector((state) => state.auth)
+  const { products, total } = useAppSelector((state) => state.cart)
+  const [isCartCreated, setIsCartCreated] = useState(false)
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
     state: "",
     address: "",
-    phone: "",
-  });
+    phone: ""
+  })
   const [formBlur, setFormBlur] = useState({
     firstName: false,
     lastName: false,
-    state: false,
+    // state: false,
     address: false,
-    phone: false,
-  });
+    phone: false
+  })
   const [errors, setErrors] = useState({
     firstName: "",
     lastName: "",
-    state: "",
+    // state: "",
     address: "",
-    phone: "",
-  });
-  const [createCart, createCartResult] = useCreateCartMutation();
-  const [createOrder, createOrderResult] = useCreateOrderMutation();
+    phone: ""
+  })
+  const [createCart, createCartResult] = useCreateCartMutation()
 
   useEffect(() => {
-    if (!isLoggedIn) navigate("/authentication");
-  }, [isLoggedIn]);
+    if (!isLoggedIn) navigate("/authentication")
+  }, [isLoggedIn])
 
   // create cart and order and then navigate to /user
   const handleClick = () => {
@@ -57,126 +54,91 @@ const CheckoutPage = () => {
       dispatch(
         openPopup({
           message: "The form must be filled before ordering!",
-          success: false,
+          success: false
         })
-      );
-      return;
+      )
+      return
     }
     // create a cart then an order wich has the cart _id
-    createCart({ products, total, user: userId });
+    createCart({ products, total, user: userId })
+    localStorage.removeItem("products")
+    setIsCartCreated(true)
     // when the createCart request is done then create an order using the useEffect
-  };
-
-  useEffect(() => {
-    if (
-      !createCartResult.isLoading &&
-      !createCartResult.isError &&
-      createCartResult.isSuccess
-    ) {
-      // console.log(createCartResult)
-      createOrder({ cartId: createCartResult?.data?.cart?._id, user: userId });
-      // when the createCart and createOrder requests are done then navigate to /user
-      if (
-        !createCartResult.isLoading &&
-        !createCartResult.isError &&
-        createCartResult.isSuccess &&
-        !createOrderResult.isLoading &&
-        !createOrderResult.isError
-      ) {
-        dispatch(
-          openPopup({
-            message: "Order was created successfully",
-            success: true,
-          })
-        );
-        setTimeout(() => {
-          navigate("/user");
-        }, 2000);
-      }
-    }
-  }, [
-    createCartResult.isLoading,
-    createCartResult.isError,
-    createOrderResult.isLoading,
-    createOrderResult.isError,
-  ]);
+  }
 
   const handleChange = (e: any) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
 
     setForm((prevForm) => {
-      const updatedForm = { ...prevForm, [name]: value };
-      setErrors(() => validate(updatedForm));
-      return updatedForm;
-    });
-  };
+      const updatedForm = { ...prevForm, [name]: value }
+      setErrors(() => validate(updatedForm))
+      return updatedForm
+    })
+  }
 
   const validate = (form: Form) => {
     let errors: any = {
       firstName: "",
       lastName: "",
       address: "",
-      phone: "",
-      state: "",
-    };
+      phone: ""
+      // state: ""
+    }
     if (form.firstName.length === 0) {
-      errors.firstName = "First name is required!";
+      errors.firstName = "First name is required!"
     }
     if (form.firstName.length > 0 && form.firstName.length < 3) {
-      errors.firstName = "First name must be at least 2 characters!";
+      errors.firstName = "First name must be at least 2 characters!"
     }
 
     if (form.lastName.length === 0) {
-      errors.lastName = "Last name is required!";
+      errors.lastName = "Last name is required!"
     }
     if (form.lastName.length > 0 && form.lastName.length < 3) {
-      errors.lastName = "Last name must be at least 3 characters.";
+      errors.lastName = "Last name must be at least 3 characters."
     }
 
     if (form.address.length === 0) {
-      errors.address = "Address is required!";
+      errors.address = "Address is required!"
     }
 
-    if (form.state.length === 0) {
-      errors.state = "State is required!";
-    }
+    // if (form.state.length === 0) {
+    //   errors.state = "State is required!"
+    // }
 
     if (form.phone.length === 0) {
-      errors.phone = "Phone number is required!";
+      errors.phone = "Phone number is required!"
     }
     if (form.phone.length > 0 && form.phone.length !== 10) {
-      errors.phone = "Phone number must be 10 characters!";
+      errors.phone = "Phone number must be 10 characters!"
     }
 
-    return errors;
-  };
+    return errors
+  }
 
   const isValid = () => {
     return (
       errors.firstName.length === 0 &&
       errors.lastName.length === 0 &&
       errors.address.length === 0 &&
-      errors.state.length === 0 &&
+      // errors.state.length === 0 &&
       errors.phone.length === 0 &&
       form.firstName.length !== 0 &&
       form.lastName.length !== 0 &&
       form.address.length !== 0 &&
-      form.state.length !== 0 &&
+      // form.state.length !== 0 &&
       form.phone.length !== 0
-    );
-  };
+    )
+  }
 
   // when the createCart or the createOrder is loading
   // show the loading spinner
-  if (
-    (createCartResult.isLoading && !createCartResult.isError) ||
-    (createOrderResult.isLoading && !createOrderResult.isError)
-  ) {
+  if (createCartResult.isLoading && !createCartResult.isError) {
     return (
       <div className="loader-container">
         <Loader />
       </div>
-    );
+    )
   }
 
   return (
@@ -214,7 +176,7 @@ const CheckoutPage = () => {
               )}
             </div>
           </div>
-          <div className="form-control">
+          {/* <div className="form-control">
             <label htmlFor="state">State </label>
             <div className="select-wrapper">
               <select name="state" onChange={handleChange}>
@@ -273,7 +235,7 @@ const CheckoutPage = () => {
                 <option value="Tindouf">Tindouf</option>
               </select>
             </div>
-          </div>
+          </div> */}
           <div className="form-control">
             <label htmlFor="address">Address </label>
             <div className="inner">
@@ -307,9 +269,16 @@ const CheckoutPage = () => {
           {/* <button type='submit'>Submit your order</button> */}
         </form>
       </div>
-      <TotalBox state={form.state} page="checkout" handleClick={handleClick} />
+      <TotalBox
+        state={form.state}
+        page="checkout"
+        handleClick={handleClick}
+        isCartCreated={isCartCreated}
+        createCartResult={createCartResult}
+        userId={userId}
+      />
     </div>
-  );
-};
+  )
+}
 
-export default CheckoutPage;
+export default CheckoutPage

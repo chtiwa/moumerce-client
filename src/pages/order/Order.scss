@@ -1,0 +1,32 @@
+.order {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 50vh;
+  gap: 1rem;
+
+  .product-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+  }
+
+  .total {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    font-weight: bold;
+  }
+
+  .btn {
+    padding: 0.75rem 1rem;
+    background-color: var(--black);
+    color: var(--white);
+    &:hover {
+      background-color: var(--white);
+      color: var(--black);
+      box-shadow: 0 0 0 1px var(--black);
+    }
+  }
+}

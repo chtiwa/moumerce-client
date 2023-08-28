@@ -4,7 +4,7 @@
   flex-direction: column;
   width: 100%;
   align-items: center;
-  justify-content: center;
+  // justify-content: center;
 
   .wrapper {
     display: flex;
@@ -57,7 +57,7 @@
             border: 0;
             outline: 0;
             font-size: 16px;
-            font-family: 'Poppins', sans-serif;
+            font-family: "Poppins", sans-serif;
           }
         }
 
@@ -67,7 +67,6 @@
           gap: 0.5rem;
           align-items: flex-start;
           width: 100%;
-
 
           input {
             border: 0;
@@ -107,7 +106,7 @@
   }
 }
 
-@media screen and (max-width:580px) {
+@media screen and (max-width: 580px) {
   .checkout {
     .wrapper {
       padding: 0.5rem;
@@ -129,7 +128,7 @@
   }
 }
 
-@media screen and (max-width:400px) {
+@media screen and (max-width: 400px) {
   .checkout {
     .wrapper {
       padding-bottom: 2rem;
