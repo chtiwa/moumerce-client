@@ -10,9 +10,9 @@ interface TotalBoxProps {
   state?: string
   page?: string
   handleClick?: () => void
-  isCartCreated: boolean
-  createCartResult: any
-  userId: string
+  isCartCreated?: boolean
+  createCartResult?: any
+  userId?: string
 }
 
 const TotalBox = ({

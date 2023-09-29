@@ -1,10 +1,22 @@
-import { useEffect } from 'react'
-import { AiOutlineDelete, AiOutlineDown, AiOutlineLeft, AiOutlineUp } from 'react-icons/ai'
-import './CartPage.scss'
-import { Link } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../features/hooks'
-import { calculateTotal, decreaseQuantity, getCart, increaseQuantity, removeItem, setCart } from '../../features/cartSlice'
-import TotalBox from '../../components/TotalBox/TotalBox'
+import { useEffect } from "react"
+import {
+  AiOutlineDelete,
+  AiOutlineDown,
+  AiOutlineLeft,
+  AiOutlineUp
+} from "react-icons/ai"
+import "./CartPage.scss"
+import { Link } from "react-router-dom"
+import { useAppDispatch, useAppSelector } from "../../features/hooks"
+import {
+  calculateTotal,
+  decreaseQuantity,
+  getCart,
+  increaseQuantity,
+  removeItem,
+  setCart
+} from "../../features/cartSlice"
+import TotalBox from "../../components/TotalBox/TotalBox"
 
 const Cart = () => {
   const { products, total } = useAppSelector((state) => state.cart)
@@ -22,13 +34,13 @@ const Cart = () => {
 
   return (
     <div className="cart-page">
-      <div className="top">
-        Shopping cart
-      </div>
+      <div className="top">Shopping cart</div>
 
       <div className="bottom">
         {products?.length === 0 ? (
-          <span className='empty-cart-span'>There are no items in your cart</span>
+          <span className="empty-cart-span">
+            There are no items in your cart
+          </span>
         ) : (
           <>
             <ul className="left">
@@ -43,16 +55,20 @@ const Cart = () => {
                     <div className="amount-btns">
                       <span>{product.quantity} </span>
                       <div className="up-down-wrapper">
-                        <button onClick={() => {
-                          dispatch(increaseQuantity({ product: product }))
-                          handleSetCartCalcTotal()
-                        }}>
+                        <button
+                          onClick={() => {
+                            dispatch(increaseQuantity({ product: product }))
+                            handleSetCartCalcTotal()
+                          }}
+                        >
                           <AiOutlineUp />
                         </button>
-                        <button onClick={() => {
-                          dispatch(decreaseQuantity(product))
-                          handleSetCartCalcTotal()
-                        }}>
+                        <button
+                          onClick={() => {
+                            dispatch(decreaseQuantity(product))
+                            handleSetCartCalcTotal()
+                          }}
+                        >
                           <AiOutlineDown />
                         </button>
                       </div>
@@ -60,10 +76,13 @@ const Cart = () => {
                     <div className="total">
                       ${product.price * product.quantity}
                     </div>
-                    <div className="delete" onClick={() => {
-                      dispatch(removeItem({ _id: product._id }))
-                      handleSetCartCalcTotal()
-                    }} >
+                    <div
+                      className="delete"
+                      onClick={() => {
+                        dispatch(removeItem({ _id: product._id }))
+                        handleSetCartCalcTotal()
+                      }}
+                    >
                       <AiOutlineDelete />
                     </div>
                   </div>
@@ -82,7 +101,7 @@ const Cart = () => {
           </>
         )}
       </div>
-    </div >
+    </div>
   )
 }
 
