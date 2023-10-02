@@ -115,7 +115,7 @@ const Cart = () => {
           ))}
       </ul>
 
-      {itemsLength > 1 && (
+      {itemsLength >= 1 && (
         <>
           <div className="pricing-info">
             <div className="items">
