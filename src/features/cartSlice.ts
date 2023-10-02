@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit"
 
 type Product = {
   _id: string
@@ -37,7 +37,7 @@ const cartSlice = createSlice({
       state.isCartOpen = false
     },
     getCart: (state) => {
-      const products = JSON.parse(localStorage.getItem('products'))
+      const products = JSON.parse(localStorage.getItem("products"))
       if (products === null) {
         state.products = []
       } else {
@@ -45,27 +45,39 @@ const cartSlice = createSlice({
       }
     },
     setCart: (state) => {
-      localStorage.setItem('products', JSON.stringify(state.products))
+      localStorage.setItem("products", JSON.stringify(state.products))
     },
     increaseQuantity: (state, action) => {
-      const product: any = state?.products?.find(product => product._id === action.payload.product._id)
+      const product: any = state?.products?.find(
+        (product) => product._id === action.payload.product._id
+      )
       if (product) {
         product.quantity += 1
+        state.itemsLength += 1
       } else {
         // in case the the action is dispatched from the products page (action?oayload.quantity) else add one product
-        state.products.push({ ...action.payload.product, quantity: action.payload.quantity ? action.payload.quantity : 1 })
+        state.products.push({
+          ...action.payload.product,
+          quantity: action.payload.quantity ? action.payload.quantity : 1
+        })
       }
     },
     decreaseQuantity: (state, action) => {
-      const product: any = state.products.find(product => product._id === action.payload._id)
+      const product: any = state.products.find(
+        (product) => product._id === action.payload._id
+      )
       if (product.quantity === 1) {
-        state.products = state.products.filter((product) => product._id !== action.payload._id)
+        state.products = state.products.filter(
+          (product) => product._id !== action.payload._id
+        )
       } else {
         product.quantity -= 1
       }
     },
     removeItem: (state, action) => {
-      state.products = state.products.filter(product => product._id !== action.payload._id)
+      state.products = state.products.filter(
+        (product) => product._id !== action.payload._id
+      )
     },
     clearCart: (state) => {
       state.products = []
@@ -73,9 +85,11 @@ const cartSlice = createSlice({
     calculateTotal: (state) => {
       // acc = accumelator
       // cur = currentValue
-      state.total = state?.products?.length > 0 && state.products.reduce((acc, cur) => {
-        return acc + cur.price * cur.quantity
-      }, 0)
+      state.total =
+        state?.products?.length > 0 &&
+        state.products.reduce((acc, cur) => {
+          return acc + cur.price * cur.quantity
+        }, 0)
       state.itemsLength = state.products.reduce((acc, cur) => {
         return acc + cur.quantity
       }, 0)
@@ -83,6 +97,16 @@ const cartSlice = createSlice({
   }
 })
 
-export const { openCart, closeCart, increaseQuantity, decreaseQuantity, removeItem, clearCart, setCart, getCart, calculateTotal } = cartSlice.actions
+export const {
+  openCart,
+  closeCart,
+  increaseQuantity,
+  decreaseQuantity,
+  removeItem,
+  clearCart,
+  setCart,
+  getCart,
+  calculateTotal
+} = cartSlice.actions
 
 export default cartSlice.reducer
